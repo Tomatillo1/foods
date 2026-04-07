@@ -1,0 +1,140 @@
+@import 'tailwindcss';
+
+/* ==========================================
+   Design System - Application Suivi Nutritionnel
+   Palette verte moderne, mobile-first
+   ========================================== */
+
+/* Variables CSS personnalisées */
+@theme {
+	/* Palette verte */
+	--color-green-main: #22c55e;
+	--color-green-light: #4ade80;
+	--color-green-dark: #16a34a;
+	--color-green-bg: #f0fdf4;
+	--color-green-50: #f0fdf4;
+	--color-green-100: #dcfce7;
+
+	/* Gris */
+	--color-gray-bg: #f8fafc;
+	--color-gray-100: #f1f5f9;
+	--color-gray-200: #e2e8f0;
+	--color-gray-300: #cbd5e1;
+	--color-gray-400: #94a3b8;
+	--color-gray-500: #64748b;
+	--color-gray-600: #475569;
+	--color-gray-700: #334155;
+	--color-gray-800: #1e293b;
+
+	/* Rouge pour dépassements */
+	--color-red-alert: #ef4444;
+	--color-red-light: #fef2f2;
+
+	/* Polices */
+	--font-sans: 'Poppins', sans-serif;
+}
+
+/* Styles globaux */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html, body {
+	font-family: 'Poppins', sans-serif;
+	background-color: var(--color-gray-bg);
+	color: var(--color-gray-700);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow-x: hidden;
+}
+
+/* Scrollbar subtile */
+::-webkit-scrollbar {
+	width: 4px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--color-gray-300);
+	border-radius: 2px;
+}
+
+/* ==========================================
+   Animations
+   ========================================== */
+
+/* Fade in depuis le bas */
+@keyframes fadeInUp {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* Fade in simple */
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+/* Slide in depuis la droite */
+@keyframes slideInRight {
+	from {
+		opacity: 0;
+		transform: translateX(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+/* Slide out vers la gauche (suppression) */
+@keyframes slideOutLeft {
+	from {
+		opacity: 1;
+		transform: translateX(0);
+	}
+	to {
+		opacity: 0;
+		transform: translateX(-40px);
+	}
+}
+
+/* Animation d'apparition d'un popup */
+@keyframes popupIn {
+	from {
+		opacity: 0;
+		transform: scale(0.95) translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
+
+/* Classes utilitaires d'animation */
+.animate-fade-in-up {
+	animation: fadeInUp 0.3s ease-out forwards;
+}
+
+.animate-fade-in {
+	animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-slide-in {
+	animation: slideInRight 0.3s ease-out forwards;
+}
+
+.animate-popup {
+	animation: popupIn 0.25s ease-out forwards;
+}
