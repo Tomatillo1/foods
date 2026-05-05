@@ -6,7 +6,7 @@
 <script lang="ts">
 	import './layout.css';
 	import { currentPage } from '$lib/stores';
-	import { Home, History, UtensilsCrossed } from 'lucide-svelte';
+	import { History, Home, Utensils } from 'lucide-svelte';
 	import type { Page } from '$lib/types';
 
 	let { children } = $props();
@@ -15,51 +15,113 @@
 	function naviguer(page: Page) {
 		currentPage.set(page);
 	}
-
-	/** Vérifie si la page est active */
-	function estActive(page: Page, courante: Page): string {
-		return page === courante
-			? 'text-green-main scale-110'
-			: 'text-gray-400';
-	}
 </script>
 
 <!-- Conteneur mobile centré -->
-<div class="min-h-screen max-w-md mx-auto bg-gray-bg relative pb-20">
+<div class="app-container">
 	{@render children()}
 </div>
 
 <!-- Navbar fixe en bas -->
-<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg">
-	<div class="max-w-md mx-auto flex items-center justify-around h-16">
+<nav class="bottom-nav">
+	<div class="nav-inner">
 		<!-- Bouton Historique -->
 		<button
 			id="nav-history"
+			class="nav-btn {$currentPage === 'history' ? 'active' : ''}"
 			onclick={() => naviguer('history')}
-			class="flex flex-col items-center gap-1 transition-all duration-200 {estActive('history', $currentPage)}"
 		>
 			<History size={22} />
-			<span class="text-[10px] font-medium">Historique</span>
+			<span class="nav-label">Historique</span>
 		</button>
 
 		<!-- Bouton Accueil (centre) -->
 		<button
 			id="nav-home"
+			class="nav-btn {$currentPage === 'home' ? 'active' : ''}"
 			onclick={() => naviguer('home')}
-			class="flex flex-col items-center gap-1 transition-all duration-200 {estActive('home', $currentPage)}"
 		>
-			<Home size={24} />
-			<span class="text-[10px] font-medium">Accueil</span>
+			<Home size={22} />
+			<span class="nav-label">Accueil</span>
 		</button>
 
 		<!-- Bouton Aliments -->
 		<button
 			id="nav-foods"
+			class="nav-btn {$currentPage === 'foods' ? 'active' : ''}"
 			onclick={() => naviguer('foods')}
-			class="flex flex-col items-center gap-1 transition-all duration-200 {estActive('foods', $currentPage)}"
 		>
-			<UtensilsCrossed size={22} />
-			<span class="text-[10px] font-medium">Aliments</span>
+			<Utensils size={22} />
+			<span class="nav-label">Aliments</span>
 		</button>
 	</div>
 </nav>
+
+<style>
+	/* Conteneur principal mobile */
+	.app-container {
+		min-height: 100vh;
+		max-width: 480px;
+		margin: 0 auto;
+		background-color: #f8fafc;
+		position: relative;
+		padding-bottom: 80px;
+	}
+
+	/* Navbar fixe en bas */
+	.bottom-nav {
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		z-index: 50;
+		background: #fff;
+		border-top: 1px solid #f1f5f9;
+		box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04);
+	}
+
+	.nav-inner {
+		max-width: 480px;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: space-around;
+		height: 64px;
+		padding: 0 16px;
+	}
+
+	.nav-btn {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 3px;
+		background: none;
+		border: none;
+		cursor: pointer;
+		color: #94a3b8;
+		transition: all 0.2s ease;
+		padding: 8px 12px;
+		border-radius: 16px;
+		font-family: 'Poppins', sans-serif;
+		position: relative;
+	}
+
+	.nav-btn:hover {
+		color: #64748b;
+	}
+
+	.nav-btn.active {
+		color: #059669;
+		background: #dcfce7;
+	}
+
+	/* Supprimer l'ancien indicateur dot */
+	.nav-btn.active::after {
+		display: none;
+	}
+
+	.nav-label {
+		font-size: 10px;
+		font-weight: 500;
+	}
+</style>
