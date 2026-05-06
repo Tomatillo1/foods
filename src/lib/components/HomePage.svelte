@@ -280,7 +280,7 @@
 	>
 		<div class="day-selector-left">
 			<Calendar size={18} class="day-icon" />
-			<span>Aujourd'hui ({jourActuel()})</span>
+			<span>Sauvegarder le jour</span>
 		</div>
 		<ChevronDown size={18} class="day-chevron" />
 	</button>

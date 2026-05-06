@@ -4,10 +4,10 @@
   Structure mobile-first centrée.
 -->
 <script lang="ts">
-	import './layout.css';
-	import { currentPage } from '$lib/stores';
-	import { History, Home, Utensils } from 'lucide-svelte';
-	import type { Page } from '$lib/types';
+	import "./layout.css";
+	import { currentPage } from "$lib/stores";
+	import { History, Home, Utensils } from "lucide-svelte";
+	import type { Page } from "$lib/types";
 
 	let { children } = $props();
 
@@ -29,7 +29,7 @@
 		<button
 			id="nav-history"
 			class="nav-btn {$currentPage === 'history' ? 'active' : ''}"
-			onclick={() => naviguer('history')}
+			onclick={() => naviguer("history")}
 		>
 			<History size={22} />
 			<span class="nav-label">Historique</span>
@@ -39,7 +39,7 @@
 		<button
 			id="nav-home"
 			class="nav-btn {$currentPage === 'home' ? 'active' : ''}"
-			onclick={() => naviguer('home')}
+			onclick={() => naviguer("home")}
 		>
 			<Home size={22} />
 			<span class="nav-label">Accueil</span>
@@ -49,7 +49,7 @@
 		<button
 			id="nav-foods"
 			class="nav-btn {$currentPage === 'foods' ? 'active' : ''}"
-			onclick={() => naviguer('foods')}
+			onclick={() => naviguer("foods")}
 		>
 			<Utensils size={22} />
 			<span class="nav-label">Aliments</span>
@@ -102,7 +102,7 @@
 		transition: all 0.2s ease;
 		padding: 8px 12px;
 		border-radius: 16px;
-		font-family: 'Poppins', sans-serif;
+		font-family: "Poppins", sans-serif;
 		position: relative;
 	}
 
