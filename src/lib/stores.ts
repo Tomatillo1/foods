@@ -67,6 +67,9 @@ function sauvegarderDansLS<T>(cle: string, valeur: T): void {
 /** Page courante de l'application */
 export const currentPage = writable<Page>('home');
 
+/** État de visibilité des popups (pour masquer la navbar) */
+export const isPopupOpen = writable(false);
+
 /** Historique des entrées du jour */
 function createEntriesStore() {
 	const { subscribe, set, update } = writable<FoodEntry[]>([]);

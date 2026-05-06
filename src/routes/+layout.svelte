@@ -5,7 +5,7 @@
 -->
 <script lang="ts">
 	import "./layout.css";
-	import { currentPage } from "$lib/stores";
+	import { currentPage, isPopupOpen } from "$lib/stores";
 	import { History, Home, Utensils } from "lucide-svelte";
 	import type { Page } from "$lib/types";
 
@@ -23,7 +23,7 @@
 </div>
 
 <!-- Navbar fixe en bas -->
-<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#f1f5f9] shadow-[0_-2px_10px_rgba(0,0,0,0.04)]">
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#f1f5f9] shadow-[0_-2px_10px_rgba(0,0,0,0.04)] transition-transform duration-300 {$isPopupOpen ? 'translate-y-full' : 'translate-y-0'}">
 	<div class="max-w-[480px] mx-auto flex items-center justify-around h-16 px-4">
 		<!-- Bouton Historique -->
 		<button

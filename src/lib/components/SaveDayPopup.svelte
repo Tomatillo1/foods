@@ -60,13 +60,13 @@
         <!-- svelte-ignore a11y_no_static_element_interactions -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div
-            class="bg-white w-full max-w-[380px] rounded-[24px] flex flex-col gap-6 animate-popup shadow-2xl py-6 px-6"
+            class="bg-white w-full max-w-[360px] rounded-[24px] flex flex-col gap-4 animate-popup shadow-2xl py-5 px-5"
             onclick={(e) => e.stopPropagation()}
         >
             <!-- En-tête -->
             <div class="flex items-center justify-between">
                 <h3
-                    class="text-[22px] font-extrabold text-[#0f172a] tracking-tight"
+                    class="text-[20px] font-extrabold text-[#0f172a] tracking-tight"
                 >
                     Sauvegarder le jour
                 </h3>
@@ -76,55 +76,55 @@
                     class="p-1 rounded-full hover:bg-gray-100 transition-colors"
                     aria-label="Fermer"
                 >
-                    <X size={22} strokeWidth={2.5} class="text-[#64748b]" />
+                    <X size={20} strokeWidth={2.5} class="text-[#64748b]" />
                 </button>
             </div>
 
             <!-- Résumé des totaux du jour -->
             <div
-                class="bg-[#f1fdf9] rounded-[24px] p-5 flex flex-col gap-4 border border-[#e6fcf5]"
+                class="bg-[#f1fdf9] rounded-[20px] p-4 flex flex-col gap-3 border border-[#e6fcf5]"
             >
-                <p class="text-[13px] font-medium text-[#64748b]">
+                <p class="text-[12px] font-medium text-[#64748b]">
                     Totaux du jour :
                 </p>
                 <div class="grid grid-cols-4 gap-1 text-center">
                     <div class="flex flex-col gap-0.5">
                         <p
-                            class="text-[20px] font-bold text-[#0f172a] leading-tight"
+                            class="text-[18px] font-bold text-[#0f172a] leading-tight"
                         >
                             {Math.round($todayTotals.calories)}
                         </p>
-                        <p class="text-[12px] font-medium text-[#94a3b8]">
+                        <p class="text-[11px] font-medium text-[#94a3b8]">
                             kcal
                         </p>
                     </div>
                     <div class="flex flex-col gap-0.5">
                         <p
-                            class="text-[20px] font-bold text-[#0f172a] leading-tight"
+                            class="text-[18px] font-bold text-[#0f172a] leading-tight"
                         >
                             {Math.round($todayTotals.proteines)}g
                         </p>
-                        <p class="text-[12px] font-medium text-[#94a3b8]">
+                        <p class="text-[11px] font-medium text-[#94a3b8]">
                             Prot.
                         </p>
                     </div>
                     <div class="flex flex-col gap-0.5">
                         <p
-                            class="text-[20px] font-bold text-[#0f172a] leading-tight"
+                            class="text-[18px] font-bold text-[#0f172a] leading-tight"
                         >
                             {Math.round($todayTotals.glucides)}g
                         </p>
-                        <p class="text-[12px] font-medium text-[#94a3b8]">
+                        <p class="text-[11px] font-medium text-[#94a3b8]">
                             Gluc.
                         </p>
                     </div>
                     <div class="flex flex-col gap-0.5">
                         <p
-                            class="text-[20px] font-bold text-[#0f172a] leading-tight"
+                            class="text-[18px] font-bold text-[#0f172a] leading-tight"
                         >
                             {Math.round($todayTotals.lipides)}g
                         </p>
-                        <p class="text-[12px] font-medium text-[#94a3b8]">
+                        <p class="text-[11px] font-medium text-[#94a3b8]">
                             Lip.
                         </p>
                     </div>
@@ -132,10 +132,10 @@
             </div>
 
             <!-- Sélection du jour -->
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-3">
                 <label
                     for="save-day-select"
-                    class="text-[14px] font-semibold text-[#64748b]"
+                    class="text-[13px] font-semibold text-[#64748b]"
                     >Choisir le jour :</label
                 >
                 <div class="grid grid-cols-4 gap-2">
@@ -143,7 +143,7 @@
                         <button
                             type="button"
                             onclick={() => (jourSelectionne = jour)}
-                            class="h-10 rounded-xl text-[13px] font-bold transition-all duration-200
+                            class="h-9 rounded-xl text-[12px] font-bold transition-all duration-200
 								   {jour === jourSelectionne
                                 ? 'bg-[#22c55e] text-white shadow-lg shadow-[#22c55e]/25'
                                 : 'bg-[#f1f5f9] text-[#475569] hover:bg-[#e2e8f0]'}"
@@ -159,17 +159,17 @@
                 type="button"
                 onclick={sauvegarder}
                 disabled={sauvegarde}
-                class="w-full h-14 bg-[#22c55e] text-white font-bold rounded-xl
+                class="w-full h-12 bg-[#22c55e] text-white font-bold rounded-xl
 					   hover:opacity-95 active:scale-[0.98]
 					   disabled:opacity-60
 					   shadow-lg shadow-[#22c55e]/20
-					   transition-all duration-200 flex items-center justify-center gap-2 text-[17px]"
+					   transition-all duration-200 flex items-center justify-center gap-2 text-base"
             >
                 {#if sauvegarde}
-                    <Check size={24} strokeWidth={3} />
+                    <Check size={20} strokeWidth={3} />
                     <span>Sauvegardé !</span>
                 {:else}
-                    <Download size={24} strokeWidth={3} />
+                    <Download size={20} strokeWidth={3} />
                     <span>Sauvegarder</span>
                 {/if}
             </button>

@@ -17,6 +17,7 @@
 		caloriesRestantes,
 		proteinesRestantes,
 		OBJECTIFS,
+		isPopupOpen,
 	} from "$lib/stores";
 	import { foodDatabase, categoriesAvecAutre } from "$lib/data/foodData";
 	import type { Food } from "$lib/types";
@@ -37,6 +38,11 @@
 	/** Affichage des popups */
 	let showCustomPopup = $state(false);
 	let showSavePopup = $state(false);
+
+	/** Sync global popup state */
+	$effect(() => {
+		isPopupOpen.set(showCustomPopup || showSavePopup);
+	});
 
 	// ==========================================
 	// Données dérivées
