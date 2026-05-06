@@ -86,40 +86,40 @@
 
 </script>
 
-<div class="foods-page">
+<div class="py-5 animate-fade-in">
 	<!-- En-tête avec Logo -->
-	<header class="header">
+	<header class="mb-6 flex items-center justify-between">
 		<div class="logo-container">
-			<span class="logo-text">Nutri<span class="logo-highlight">Track</span></span>
+			<span class="text-2xl font-extrabold text-[#15803d] -tracking-[0.5px]">Nutri<span class="text-[#16a34a]">Track</span></span>
 		</div>
 	</header>
 
-	<div class="content-container">
-		<h1 class="page-title">Répertoire des Aliments</h1>
+	<div>
+		<h1 class="text-[22px] font-bold text-[#111827] mb-5">Répertoire des Aliments</h1>
 
 		<!-- Barre de recherche -->
-		<div class="search-container">
-			<div class="search-wrapper">
-				<Search size={18} class="search-icon" />
+		<div class="mb-6">
+			<div class="relative flex items-center bg-white rounded-xl border border-[#e5e7eb] px-4 transition-all focus-within:border-[#10b981] focus-within:ring-4 focus-within:ring-[#10b981]/5">
+				<Search size={18} class="text-[#9ca3af] mr-3" />
 				<input 
 					type="text" 
 					placeholder="Rechercher un aliment..." 
 					bind:value={searchQuery}
-					class="search-input"
+					class="w-full h-[52px] border-none bg-transparent outline-none text-base text-[#374151] placeholder:text-[#9ca3af] placeholder:font-normal"
 				/>
 			</div>
 		</div>
 
 		<!-- Liste par catégorie -->
-		<div class="categories-list">
+		<div class="flex flex-col gap-4">
 			{#each Object.entries(displayDatabase) as [categorie, aliments]}
-				<div class="category-card" class:open={categoriesOuvertes[categorie]}>
+				<div class="bg-white rounded-[18px] shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden border border-[#f3f4f6]">
 					<button
 						onclick={() => toggleCategorie(categorie)}
-						class="category-header"
+						class="w-full flex items-center justify-between p-[18px_20px] bg-none border-none cursor-pointer text-left"
 					>
-						<div class="category-info">
-							<div class="icon-wrapper {colors[categorie] || 'text-green-600'}">
+						<div class="flex items-center gap-3.5">
+							<div class="flex items-center justify-center {colors[categorie] || 'text-green-600'}">
 								{#if icons[categorie]}
 									{@const Icon = icons[categorie]}
 									<Icon size={20} strokeWidth={2.5} />
@@ -127,30 +127,30 @@
 									<Utensils size={20} strokeWidth={2.5} />
 								{/if}
 							</div>
-							<span class="category-name">{categorie}</span>
+							<span class="text-lg font-bold text-[#1f2937]">{categorie}</span>
 						</div>
 						<div class="header-right">
 							{#if categoriesOuvertes[categorie]}
-								<ChevronUp size={20} class="chevron" />
+								<ChevronUp size={20} class="text-[#d1d5db]" />
 							{:else}
-								<ChevronDown size={20} class="chevron" />
+								<ChevronDown size={20} class="text-[#d1d5db]" />
 							{/if}
 						</div>
 					</button>
 
 					{#if categoriesOuvertes[categorie]}
-						<div class="items-list">
+						<div class="px-5 pb-5 flex flex-col gap-0 animate-slide-down">
 							{#each aliments as aliment}
-								<div class="food-item">
-									<div class="item-details">
-										<span class="item-name">{aliment.nom}</span>
-										<div class="item-macros">
+								<div class="flex justify-between items-center py-3.5 border-b border-[#f3f4f6] last:border-none">
+									<div class="flex flex-col gap-0.5">
+										<span class="text-[15px] font-semibold text-[#374151]">{aliment.nom}</span>
+										<div class="flex gap-2 text-[11px] text-[#9ca3af] font-medium">
 											<span>P: {aliment.valeurs.proteines}g</span>
 											<span>G: {aliment.valeurs.glucides}g</span>
 											<span>L: {aliment.valeurs.lipides}g</span>
 										</div>
 									</div>
-									<div class="item-calories">
+									<div class="text-[15px] font-bold text-[#166534] whitespace-nowrap">
 										{aliment.valeurs.calories} kcal
 									</div>
 								</div>
@@ -162,187 +162,5 @@
 		</div>
 	</div>
 </div>
-
-<style>
-	.foods-page {
-		padding: 20px 0;
-		animation: fadeIn 0.4s ease-out;
-	}
-
-	.header {
-		padding: 0 20px;
-		margin-bottom: 24px;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-	}
-
-	.logo-text {
-		font-size: 24px;
-		font-weight: 800;
-		color: #15803d; /* Vert plus sombre pour le logo */
-		letter-spacing: -0.5px;
-	}
-
-	.logo-highlight {
-		color: #16a34a;
-	}
-
-	.content-container {
-		padding: 0 20px;
-	}
-
-	.page-title {
-		font-size: 22px;
-		font-weight: 700;
-		color: #111827;
-		margin-bottom: 20px;
-	}
-
-	.search-container {
-		margin-bottom: 24px;
-	}
-
-	.search-wrapper {
-		position: relative;
-		display: flex;
-		align-items: center;
-		background: white;
-		border-radius: 14px;
-		border: 1px solid #e5e7eb;
-		padding: 0 16px;
-		transition: all 0.2s ease;
-	}
-
-	.search-wrapper:focus-within {
-		border-color: #10b981;
-		box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.05);
-	}
-
-	.search-icon {
-		color: #9ca3af;
-		margin-right: 12px;
-	}
-
-	.search-input {
-		width: 100%;
-		height: 52px;
-		border: none;
-		background: transparent;
-		outline: none;
-		font-size: 16px;
-		color: #374151;
-	}
-
-	.search-input::placeholder {
-		color: #9ca3af;
-		font-weight: 400;
-	}
-
-	.categories-list {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
-
-	.category-card {
-		background: white;
-		border-radius: 18px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-		overflow: hidden;
-		border: 1px solid #f3f4f6;
-	}
-
-	.category-header {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 18px 20px;
-		background: none;
-		border: none;
-		cursor: pointer;
-		text-align: left;
-	}
-
-	.category-info {
-		display: flex;
-		align-items: center;
-		gap: 14px;
-	}
-
-	.icon-wrapper {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.category-name {
-		font-size: 18px;
-		font-weight: 700;
-		color: #1f2937;
-	}
-
-	.chevron {
-		color: #d1d5db;
-	}
-
-	.items-list {
-		padding: 0 20px 20px 20px;
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-		animation: slideDown 0.3s ease-out;
-	}
-
-	.food-item {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		padding: 14px 0;
-		border-bottom: 1px solid #f3f4f6;
-	}
-
-	.food-item:last-child {
-		border-bottom: none;
-	}
-
-	.item-details {
-		display: flex;
-		flex-direction: column;
-		gap: 2px;
-	}
-
-	.item-name {
-		font-size: 15px;
-		font-weight: 600;
-		color: #374151;
-	}
-
-	.item-macros {
-		display: flex;
-		gap: 8px;
-		font-size: 11px;
-		color: #9ca3af;
-		font-weight: 500;
-	}
-
-	.item-calories {
-		font-size: 15px;
-		font-weight: 700;
-		color: #166534; /* Vert plus sombre comme dans le screenshot */
-		white-space: nowrap;
-	}
-
-	@keyframes fadeIn {
-		from { opacity: 0; transform: translateY(8px); }
-		to { opacity: 1; transform: translateY(0); }
-	}
-
-	@keyframes slideDown {
-		from { opacity: 0; max-height: 0; }
-		to { opacity: 1; max-height: 2000px; }
-	}
-</style>
 
 

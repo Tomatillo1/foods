@@ -18,110 +18,41 @@
 </script>
 
 <!-- Conteneur mobile centré -->
-<div class="app-container">
+<div class="min-h-screen w-full max-w-[480px] mx-auto bg-[#f8fafc] relative pb-20 px-4">
 	{@render children()}
 </div>
 
 <!-- Navbar fixe en bas -->
-<nav class="bottom-nav">
-	<div class="nav-inner">
+<nav class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-[#f1f5f9] shadow-[0_-2px_10px_rgba(0,0,0,0.04)]">
+	<div class="max-w-[480px] mx-auto flex items-center justify-around h-16 px-4">
 		<!-- Bouton Historique -->
 		<button
 			id="nav-history"
-			class="nav-btn {$currentPage === 'history' ? 'active' : ''}"
+			class="flex flex-col items-center gap-[3px] bg-none border-none cursor-pointer transition-all p-[8px_12px] rounded-[16px] font-['Poppins'] relative hover:text-[#64748b] {$currentPage === 'history' ? 'text-[#059669] bg-[#dcfce7]' : 'text-[#94a3b8]'}"
 			onclick={() => naviguer("history")}
 		>
 			<History size={22} />
-			<span class="nav-label">Historique</span>
+			<span class="text-[10px] font-medium">Historique</span>
 		</button>
 
 		<!-- Bouton Accueil (centre) -->
 		<button
 			id="nav-home"
-			class="nav-btn {$currentPage === 'home' ? 'active' : ''}"
+			class="flex flex-col items-center gap-[3px] bg-none border-none cursor-pointer transition-all p-[8px_12px] rounded-[16px] font-['Poppins'] relative hover:text-[#64748b] {$currentPage === 'home' ? 'text-[#059669] bg-[#dcfce7]' : 'text-[#94a3b8]'}"
 			onclick={() => naviguer("home")}
 		>
 			<Home size={22} />
-			<span class="nav-label">Accueil</span>
+			<span class="text-[10px] font-medium">Accueil</span>
 		</button>
 
 		<!-- Bouton Aliments -->
 		<button
 			id="nav-foods"
-			class="nav-btn {$currentPage === 'foods' ? 'active' : ''}"
+			class="flex flex-col items-center gap-[3px] bg-none border-none cursor-pointer transition-all p-[8px_12px] rounded-[16px] font-['Poppins'] relative hover:text-[#64748b] {$currentPage === 'foods' ? 'text-[#059669] bg-[#dcfce7]' : 'text-[#94a3b8]'}"
 			onclick={() => naviguer("foods")}
 		>
 			<Utensils size={22} />
-			<span class="nav-label">Aliments</span>
+			<span class="text-[10px] font-medium">Aliments</span>
 		</button>
 	</div>
 </nav>
-
-<style>
-	/* Conteneur principal mobile */
-	.app-container {
-		min-height: 100vh;
-		max-width: 480px;
-		margin: 0 auto;
-		background-color: #f8fafc;
-		position: relative;
-		padding-bottom: 80px;
-	}
-
-	/* Navbar fixe en bas */
-	.bottom-nav {
-		position: fixed;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		z-index: 50;
-		background: #fff;
-		border-top: 1px solid #f1f5f9;
-		box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.04);
-	}
-
-	.nav-inner {
-		max-width: 480px;
-		margin: 0 auto;
-		display: flex;
-		align-items: center;
-		justify-content: space-around;
-		height: 64px;
-		padding: 0 16px;
-	}
-
-	.nav-btn {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 3px;
-		background: none;
-		border: none;
-		cursor: pointer;
-		color: #94a3b8;
-		transition: all 0.2s ease;
-		padding: 8px 12px;
-		border-radius: 16px;
-		font-family: "Poppins", sans-serif;
-		position: relative;
-	}
-
-	.nav-btn:hover {
-		color: #64748b;
-	}
-
-	.nav-btn.active {
-		color: #059669;
-		background: #dcfce7;
-	}
-
-	/* Supprimer l'ancien indicateur dot */
-	.nav-btn.active::after {
-		display: none;
-	}
-
-	.nav-label {
-		font-size: 10px;
-		font-weight: 500;
-	}
-</style>

@@ -34,12 +34,6 @@
 	--font-sans: 'Poppins', sans-serif;
 }
 
-/* Styles globaux */
-* {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-}
 
 html, body {
 	font-family: 'Poppins', sans-serif;
@@ -122,6 +116,12 @@ html, body {
 	}
 }
 
+/* Slide down pour les listes d'aliments */
+@keyframes slideDown {
+	from { opacity: 0; max-height: 0; }
+	to { opacity: 1; max-height: 2000px; }
+}
+
 /* Classes utilitaires d'animation */
 .animate-fade-in-up {
 	animation: fadeInUp 0.3s ease-out forwards;
@@ -137,4 +137,8 @@ html, body {
 
 .animate-popup {
 	animation: popupIn 0.25s ease-out forwards;
+}
+
+.animate-slide-down {
+	animation: slideDown 0.3s ease-out forwards;
 }

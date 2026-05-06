@@ -9,30 +9,30 @@
 		ChevronDown,
 		Calendar,
 		Droplet,
-		Leaf
-	} from 'lucide-svelte';
+		Leaf,
+	} from "lucide-svelte";
 	import {
 		todayEntries,
 		todayTotals,
 		caloriesRestantes,
 		proteinesRestantes,
-		OBJECTIFS
-	} from '$lib/stores';
-	import { foodDatabase, categoriesAvecAutre } from '$lib/data/foodData';
-	import type { Food } from '$lib/types';
-	import CustomFoodPopup from './CustomFoodPopup.svelte';
-	import SaveDayPopup from './SaveDayPopup.svelte';
+		OBJECTIFS,
+	} from "$lib/stores";
+	import { foodDatabase, categoriesAvecAutre } from "$lib/data/foodData";
+	import type { Food } from "$lib/types";
+	import CustomFoodPopup from "./CustomFoodPopup.svelte";
+	import SaveDayPopup from "./SaveDayPopup.svelte";
 
 	// ==========================================
 	// État du formulaire
 	// ==========================================
 
 	/** Catégorie sélectionnée */
-	let categorieSelectionnee = $state('');
+	let categorieSelectionnee = $state("");
 	/** Produit sélectionné dans la catégorie */
-	let produitSelectionne = $state('');
+	let produitSelectionne = $state("");
 	/** Quantité en grammes */
-	let quantite = $state<number | ''>('');
+	let quantite = $state<number | "">("");
 
 	/** Affichage des popups */
 	let showCustomPopup = $state(false);
@@ -44,39 +44,48 @@
 
 	/** Liste des produits de la catégorie sélectionnée */
 	let produitsDisponibles = $derived<Food[]>(
-		categorieSelectionnee && categorieSelectionnee !== 'Autre'
+		categorieSelectionnee && categorieSelectionnee !== "Autre"
 			? foodDatabase[categorieSelectionnee] || []
-			: []
+			: [],
 	);
 
 	/** Le produit actuellement sélectionné (objet Food) */
 	let produitActuel = $derived<Food | null>(
-		produitsDisponibles.find((p) => p.nom === produitSelectionne) || null
+		produitsDisponibles.find((p) => p.nom === produitSelectionne) || null,
 	);
 
 	/** Vérifie si le formulaire est prêt à être validé */
 	let formulaireValide = $derived(
-		categorieSelectionnee !== '' &&
-		categorieSelectionnee !== 'Autre' &&
-		produitSelectionne !== '' &&
-		Number(quantite) > 0
+		categorieSelectionnee !== "" &&
+			categorieSelectionnee !== "Autre" &&
+			produitSelectionne !== "" &&
+			Number(quantite) > 0,
 	);
 
 	/** Jour actuel formaté */
 	let jourActuel = $derived(() => {
-		const jours = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+		const jours = [
+			"Dimanche",
+			"Lundi",
+			"Mardi",
+			"Mercredi",
+			"Jeudi",
+			"Vendredi",
+			"Samedi",
+			"Dimanche",
+		];
 		const now = new Date();
 		return jours[now.getDay()];
 	});
 
 	/** Pourcentage calories consommées */
 	let caloriePourcentage = $derived(
-		Math.min(100, ($todayTotals.calories / OBJECTIFS.calories) * 100)
+		Math.min(100, ($todayTotals.calories / OBJECTIFS.calories) * 100),
 	);
 
 	/** Pourcentage protéines consommées */
 	let proteinePourcentage = $derived(
-		Math.min(100, ($todayTotals.proteines / OBJECTIFS.proteines) * 100)
+		Math.min(100, ($todayTotals.proteines / OBJECTIFS.proteines) * 100),
 	);
 
 	/** Valeurs calculées en temps réel pour l'aperçu */
@@ -86,7 +95,8 @@
 		const ratio = q / 100;
 		return {
 			calories: Math.round(produitActuel.valeurs.calories * ratio),
-			proteines: Math.round(produitActuel.valeurs.proteines * ratio * 10) / 10
+			proteines:
+				Math.round(produitActuel.valeurs.proteines * ratio * 10) / 10,
 		};
 	});
 
@@ -98,11 +108,11 @@
 	function onCategorieChange(e: Event) {
 		const target = e.target as HTMLSelectElement;
 		categorieSelectionnee = target.value;
-		produitSelectionne = '';
-		quantite = '';
+		produitSelectionne = "";
+		quantite = "";
 
 		// Si "Autre", ouvrir le popup personnalisé
-		if (categorieSelectionnee === 'Autre') {
+		if (categorieSelectionnee === "Autre") {
 			showCustomPopup = true;
 		}
 	}
@@ -125,30 +135,39 @@
 			nom: produitActuel.nom,
 			quantite: q,
 			calories: Math.round(produitActuel.valeurs.calories * ratio),
-			proteines: Math.round(produitActuel.valeurs.proteines * ratio * 10) / 10,
-			glucides: Math.round(produitActuel.valeurs.glucides * ratio * 10) / 10,
-			lipides: Math.round(produitActuel.valeurs.lipides * ratio * 10) / 10
+			proteines:
+				Math.round(produitActuel.valeurs.proteines * ratio * 10) / 10,
+			glucides:
+				Math.round(produitActuel.valeurs.glucides * ratio * 10) / 10,
+			lipides:
+				Math.round(produitActuel.valeurs.lipides * ratio * 10) / 10,
 		});
 
 		// Reset du formulaire
-		categorieSelectionnee = '';
-		produitSelectionne = '';
-		quantite = '';
+		categorieSelectionnee = "";
+		produitSelectionne = "";
+		quantite = "";
 	}
 
 	/** Validation depuis le popup personnalisé */
-	function onCustomValidate(data: { nom: string; calories: number; proteines: number; glucides: number; lipides: number }) {
+	function onCustomValidate(data: {
+		nom: string;
+		calories: number;
+		proteines: number;
+		glucides: number;
+		lipides: number;
+	}) {
 		todayEntries.ajouter({
 			nom: data.nom,
 			quantite: 0, // Pas de quantité pour un aliment custom
 			calories: data.calories,
 			proteines: data.proteines,
 			glucides: data.glucides,
-			lipides: data.lipides
+			lipides: data.lipides,
 		});
 
 		// Reset catégorie après ajout custom
-		categorieSelectionnee = '';
+		categorieSelectionnee = "";
 	}
 
 	/** Suppression d'une entrée */
@@ -157,61 +176,68 @@
 	}
 </script>
 
-<div class="home-page">
+<div class="py-5 animate-fade-in flex flex-col gap-5">
 	<!-- ==========================================
 	     EN-TÊTE : NutriTrack
 	     ========================================== -->
-	<header class="home-header">
-		<h1 class="header-title">NutriTrack</h1>
+	<header class="py-2.5">
+		<h1 class="text-2xl font-extrabold text-[#065f46] tracking-tight">NutriTrack</h1>
 	</header>
 
 	<!-- ==========================================
 	     ZONE 1 : Formulaire d'ajout rapide
 	     ========================================== -->
-	<section class="card card-form">
-		<h2 class="card-title-large">Ajout rapide</h2>
+	<section class="bg-white rounded-[24px] p-6 shadow-[0_4px_15px_rgba(0,0,0,0.02)] border border-black/5">
+		<h2 class="text-[19px] font-bold text-[#111827] mb-5">Ajout rapide</h2>
 
-		<div class="form-group">
+		<div class="flex flex-col gap-4">
 			<!-- Catégorie -->
-			<div class="field">
-				<label for="select-categorie" class="field-label">Catégorie</label>
-				<div class="select-wrapper">
+			<div class="flex flex-col gap-1.5">
+				<label for="select-categorie" class="text-[13px] font-medium text-[#374151]"
+					>Catégorie</label
+				>
+				<div class="relative">
 					<select
 						id="select-categorie"
 						value={categorieSelectionnee}
 						onchange={onCategorieChange}
+						class="w-full px-4 py-3 bg-[#f8fafc] border border-[#f1f5f9] rounded-xl text-sm font-['Poppins'] text-[#1f2937] appearance-none cursor-pointer transition-all focus:outline-none focus:border-[#10b981] focus:bg-white focus:ring-4 focus:ring-[#10b981]/5"
 					>
 						<option value="" disabled>Sélectionner...</option>
 						{#each categoriesAvecAutre as cat}
 							<option value={cat}>{cat}</option>
 						{/each}
 					</select>
-					<ChevronDown size={18} class="select-chevron" />
+					<ChevronDown size={18} class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#9ca3af] pointer-events-none" />
 				</div>
 			</div>
 
 			<!-- Produit -->
-			<div class="field">
-				<label for="select-produit" class="field-label">Produit</label>
-				<div class="select-wrapper">
+			<div class="flex flex-col gap-1.5">
+				<label for="select-produit" class="text-[13px] font-medium text-[#374151]">Produit</label>
+				<div class="relative">
 					<select
 						id="select-produit"
 						value={produitSelectionne}
 						onchange={onProduitChange}
-						disabled={!categorieSelectionnee || categorieSelectionnee === 'Autre'}
+						disabled={!categorieSelectionnee ||
+							categorieSelectionnee === "Autre"}
+						class="w-full px-4 py-3 bg-[#f8fafc] border border-[#f1f5f9] rounded-xl text-sm font-['Poppins'] text-[#1f2937] appearance-none cursor-pointer transition-all focus:outline-none focus:border-[#10b981] focus:bg-white focus:ring-4 focus:ring-[#10b981]/5 disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						<option value="" disabled>Ex: Avocat</option>
 						{#each produitsDisponibles as produit}
 							<option value={produit.nom}>{produit.nom}</option>
 						{/each}
 					</select>
-					<ChevronDown size={18} class="select-chevron" />
+					<ChevronDown size={18} class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#9ca3af] pointer-events-none" />
 				</div>
 			</div>
 
 			<!-- Quantité -->
-			<div class="field">
-				<label for="input-quantite" class="field-label">Quantité (g)</label>
+			<div class="flex flex-col gap-1.5">
+				<label for="input-quantite" class="text-[13px] font-medium text-[#374151]"
+					>Quantité (g)</label
+				>
 				<input
 					id="input-quantite"
 					type="number"
@@ -219,14 +245,21 @@
 					placeholder="0"
 					min="1"
 					disabled={!produitSelectionne}
+					class="w-full px-4 py-3 bg-[#f8fafc] border border-[#f1f5f9] rounded-xl text-sm font-['Poppins'] text-[#1f2937] transition-all focus:outline-none focus:border-[#10b981] focus:bg-white focus:ring-4 focus:ring-[#10b981]/5 disabled:opacity-50 disabled:cursor-not-allowed"
 				/>
 
 				<!-- Résultat dynamique -->
 				{#if apercuValeurs()}
-					<div class="dynamic-result animate-fade-in">
-						<span>Total : <strong>{apercuValeurs()?.calories} kcal</strong></span>
-						<span class="dot">•</span>
-						<span><strong>{apercuValeurs()?.proteines}g</strong> P</span>
+					<div class="mt-2 px-3 py-2 bg-[#f0fdf4] rounded-[10px] flex items-center gap-2 text-[13px] text-[#065f46] border border-dashed border-[#bbf7d0] animate-fade-in">
+						<span
+							>Total : <strong
+								>{apercuValeurs()?.calories} kcal</strong
+							></span
+						>
+						<span class="text-[#bbf7d0]">•</span>
+						<span
+							><strong>{apercuValeurs()?.proteines}g</strong> P</span
+						>
 					</div>
 				{/if}
 			</div>
@@ -234,7 +267,7 @@
 			<!-- Bouton Valider -->
 			<button
 				id="btn-valider"
-				class="btn-valider"
+				class="flex items-center justify-center gap-2.5 w-full p-3.5 bg-[#065f46] text-white text-[15px] font-semibold rounded-xl transition-all mt-1 hover:bg-[#047857] hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
 				onclick={validerFormulaire}
 				disabled={!formulaireValide}
 			>
@@ -247,63 +280,63 @@
 	<!-- ==========================================
 	     ZONE 2 : Compteurs nutritionnels (4 cards)
 	     ========================================== -->
-	<section class="nutrition-grid">
+	<section class="grid grid-cols-2 gap-3">
 		<!-- Calories -->
-		<div class="nutrition-card card-calories">
-			<span class="pill-label">Calories</span>
-			<span class="pill-value value-green">{Math.round($todayTotals.calories)}</span>
-			<span class="pill-unit">kcal</span>
+		<div class="bg-[#f0fdf4] border border-[#dcfce7] rounded-[20px] p-4 flex flex-col items-center gap-1">
+			<span class="text-xs font-medium text-[#4b5563]">Calories</span>
+			<span class="text-2xl font-extrabold text-[#059669]"
+				>{Math.round($todayTotals.calories)}</span
+			>
+			<span class="text-xs text-[#6b7280]">kcal</span>
 		</div>
 		<!-- Protéines -->
-		<div class="nutrition-card">
-			<span class="pill-label">Protéines</span>
-			<span class="pill-value">{Math.round($todayTotals.proteines)}g</span>
+		<div class="bg-[#e5e7eb] rounded-[20px] p-4 flex flex-col items-center gap-1">
+			<span class="text-xs font-medium text-[#4b5563]">Protéines</span>
+			<span class="text-2xl font-extrabold text-[#111827]">{Math.round($todayTotals.proteines)}g</span
+			>
 		</div>
 		<!-- Glucides -->
-		<div class="nutrition-card">
-			<span class="pill-label">Glucides</span>
-			<span class="pill-value">{Math.round($todayTotals.glucides)}g</span>
+		<div class="bg-[#e5e7eb] rounded-[20px] p-4 flex flex-col items-center gap-1">
+			<span class="text-xs font-medium text-[#4b5563]">Glucides</span>
+			<span class="text-2xl font-extrabold text-[#111827]">{Math.round($todayTotals.glucides)}g</span>
 		</div>
 		<!-- Lipides -->
-		<div class="nutrition-card">
-			<span class="pill-label">Lipides</span>
-			<span class="pill-value">{Math.round($todayTotals.lipides)}g</span>
+		<div class="bg-[#e5e7eb] rounded-[20px] p-4 flex flex-col items-center gap-1">
+			<span class="text-xs font-medium text-[#4b5563]">Lipides</span>
+			<span class="text-2xl font-extrabold text-[#111827]">{Math.round($todayTotals.lipides)}g</span>
 		</div>
 	</section>
 
 	<!-- ==========================================
 	     ZONE 3 : Sélecteur de jour
 	     ========================================== -->
-	<button
-		class="day-selector"
-		onclick={() => showSavePopup = true}
-	>
-		<div class="day-selector-left">
-			<Calendar size={18} class="day-icon" />
+	<button class="flex items-center justify-between bg-[#e5e7eb] rounded-[16px] px-5 py-3.5 border-none cursor-pointer font-['Poppins']" onclick={() => (showSavePopup = true)}>
+		<div class="flex items-center gap-3 text-sm font-medium text-[#374151]">
+			<Calendar size={18} class="text-[#059669]" />
 			<span>Sauvegarder le jour</span>
 		</div>
-		<ChevronDown size={18} class="day-chevron" />
+		<ChevronDown size={18} class="text-[#6b7280]" />
 	</button>
 
 	<!-- ==========================================
 	     ZONE 4 : Historique du jour
 	     ========================================== -->
 	<section class="history-section">
-		<div class="history-header">
-			<h2 class="section-title">Historique du jour</h2>
-			<button class="btn-voir-tout">Voir tout</button>
+		<div class="flex items-center justify-between mb-4">
+			<h2 class="text-lg font-bold text-[#111827]">Historique du jour</h2>
+			<button class="bg-none border-none text-sm font-semibold text-[#059669] cursor-pointer font-['Poppins']">Voir tout</button>
 		</div>
 
 		{#if $todayEntries.length === 0}
-			<div class="card empty-card">
-				<p class="empty-history">Aucun aliment ajouté aujourd'hui</p>
+			<div class="bg-white rounded-[24px] p-[30px] shadow-[0_4px_15px_rgba(0,0,0,0.02)] border border-black/5 text-center text-[#9ca3af] text-sm">
+				<p>Aucun aliment ajouté aujourd'hui</p>
 			</div>
 		{:else}
-			<div class="history-list">
+			<div class="flex flex-col gap-3">
 				{#each $todayEntries as entry, i (entry.id)}
-					<div class="history-item">
+					<div class="flex items-center gap-3.5 bg-white rounded-[20px] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
 						<!-- Icône circulaire -->
-						<div class="history-icon">
+						<div class="w-11 h-11 rounded-[14px] bg-[#dcfce7] flex items-center justify-center text-[#059669] flex-shrink-0">
 							{#if i % 2 === 0}
 								<Droplet size={18} />
 							{:else}
@@ -312,9 +345,9 @@
 						</div>
 
 						<!-- Infos aliment -->
-						<div class="history-info">
-							<p class="history-name">{entry.nom}</p>
-							<p class="history-details">
+						<div class="flex-1 min-w-0">
+							<p class="text-sm font-bold text-[#111827]">{entry.nom}</p>
+							<p class="text-xs text-[#6b7280] mt-0.5">
 								{#if entry.quantite > 0}
 									{entry.quantite}g •
 								{/if}
@@ -324,7 +357,7 @@
 
 						<!-- Bouton suppression -->
 						<button
-							class="btn-delete"
+							class="w-9 h-9 flex items-center justify-center text-[#ef4444] bg-none border-none cursor-pointer"
 							onclick={() => supprimerEntree(entry.id)}
 							aria-label="Supprimer {entry.nom}"
 						>
@@ -339,36 +372,40 @@
 	<!-- ==========================================
 	     ZONE 5 : Résumé des objectifs
 	     ========================================== -->
-	<section class="card-objectifs">
-		<h2 class="objectifs-title">Résumé des objectifs</h2>
+	<section class="bg-[#ecfdf5] rounded-[24px] p-6 border border-[#d1fae5]">
+		<h2 class="text-lg font-bold text-[#111827] mb-5">Résumé des objectifs</h2>
 
 		<!-- Calories restantes -->
-		<div class="objectif-item">
-			<div class="objectif-row">
-				<span class="objectif-label">Calories restantes</span>
-				<span class="objectif-value value-green">
-					{$caloriesRestantes.depasse ? '0' : $caloriesRestantes.valeur} kcal
+		<div class="mb-5 last:mb-0">
+			<div class="flex items-center justify-between mb-2.5">
+				<span class="text-sm text-[#4b5563]">Calories restantes</span>
+				<span class="text-lg font-extrabold text-[#059669]">
+					{$caloriesRestantes.depasse
+						? "0"
+						: $caloriesRestantes.valeur} kcal
 				</span>
 			</div>
-			<div class="progress-bar">
+			<div class="w-full h-2.5 bg-[#f3f4f6] rounded-[10px] overflow-hidden">
 				<div
-					class="progress-fill fill-green-dark"
+					class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] bg-[#065f46]"
 					style="width: {caloriePourcentage}%"
 				></div>
 			</div>
 		</div>
 
 		<!-- Protéines restantes -->
-		<div class="objectif-item">
-			<div class="objectif-row">
-				<span class="objectif-label">Protéines restantes</span>
-				<span class="objectif-value value-red">
-					{$proteinesRestantes.depasse ? '0' : $proteinesRestantes.valeur}g
+		<div class="mb-5 last:mb-0">
+			<div class="flex items-center justify-between mb-2.5">
+				<span class="text-sm text-[#4b5563]">Protéines restantes</span>
+				<span class="text-lg font-extrabold text-[#b91c1c]">
+					{$proteinesRestantes.depasse
+						? "0"
+						: $proteinesRestantes.valeur}g
 				</span>
 			</div>
-			<div class="progress-bar">
+			<div class="w-full h-2.5 bg-[#f3f4f6] rounded-[10px] overflow-hidden">
 				<div
-					class="progress-fill fill-red"
+					class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] bg-linear-to-r from-[#ef4444] to-[#f87171]"
 					style="width: {proteinePourcentage}%"
 				></div>
 			</div>
@@ -379,408 +416,11 @@
 <!-- Popups -->
 <CustomFoodPopup
 	visible={showCustomPopup}
-	onClose={() => { showCustomPopup = false; categorieSelectionnee = ''; }}
+	onClose={() => {
+		showCustomPopup = false;
+		categorieSelectionnee = "";
+	}}
 	onValidate={onCustomValidate}
 />
 
-<SaveDayPopup
-	visible={showSavePopup}
-	onClose={() => showSavePopup = false}
-/>
-
-<style>
-	/* ==========================================
-	   Page Container
-	   ========================================== */
-	.home-page {
-		padding: 20px;
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-		background-color: #f8fafc;
-		min-height: 100vh;
-	}
-
-	/* ==========================================
-	   En-tête NutriTrack
-	   ========================================== */
-	.home-header {
-		padding: 10px 0;
-	}
-
-	.header-title {
-		font-size: 24px;
-		font-weight: 800;
-		color: #065f46; /* Vert foncé premium */
-		letter-spacing: -0.5px;
-	}
-
-	/* ==========================================
-	   Carte générique
-	   ========================================== */
-	.card {
-		background: #fff;
-		border-radius: 24px;
-		padding: 24px;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
-		border: 1px solid rgba(0, 0, 0, 0.03);
-	}
-
-	/* ==========================================
-	   Zone Ajout Rapide
-	   ========================================== */
-	.card-form {
-		background: #fff;
-	}
-
-	.card-title-large {
-		font-size: 19px;
-		font-weight: 700;
-		color: #111827;
-		margin-bottom: 20px;
-	}
-
-	.form-group {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-	}
-
-	.field {
-		display: flex;
-		flex-direction: column;
-		gap: 6px;
-	}
-
-	.field-label {
-		font-size: 13px;
-		font-weight: 500;
-		color: #374151;
-	}
-
-	.select-wrapper {
-		position: relative;
-	}
-
-	.select-wrapper select,
-	.field input {
-		width: 100%;
-		padding: 12px 16px;
-		background: #f8fafc;
-		border: 1px solid #f1f5f9;
-		border-radius: 12px;
-		font-size: 14px;
-		font-family: 'Poppins', sans-serif;
-		color: #1f2937;
-		appearance: none;
-		cursor: pointer;
-		transition: all 0.2s ease;
-	}
-
-	.select-wrapper select:focus,
-	.field input:focus {
-		outline: none;
-		border-color: #10b981;
-		background: #fff;
-		box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.05);
-	}
-
-	/* Résultat dynamique sous la quantité */
-	.dynamic-result {
-		margin-top: 8px;
-		padding: 8px 12px;
-		background: #f0fdf4;
-		border-radius: 10px;
-		display: flex;
-		align-items: center;
-		gap: 8px;
-		font-size: 13px;
-		color: #065f46;
-		border: 1px dashed #bbf7d0;
-	}
-
-	.dynamic-result strong {
-		font-weight: 700;
-	}
-
-	.dynamic-result .dot {
-		color: #bbf7d0;
-	}
-
-	.select-wrapper :global(.select-chevron) {
-		position: absolute;
-		right: 14px;
-		top: 50%;
-		transform: translateY(-50%);
-		color: #9ca3af;
-		pointer-events: none;
-	}
-
-	/* Bouton Valider */
-	.btn-valider {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 10px;
-		width: 100%;
-		padding: 14px;
-		background: #065f46;
-		color: #fff;
-		font-size: 15px;
-		font-weight: 600;
-		border: none;
-		border-radius: 12px;
-		cursor: pointer;
-		transition: all 0.2s ease;
-		margin-top: 4px;
-	}
-
-	.btn-valider:hover:not(:disabled) {
-		background: #047857;
-		transform: translateY(-1px);
-	}
-
-	.btn-valider:active:not(:disabled) {
-		transform: translateY(0);
-	}
-
-	.btn-valider:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-
-	/* ==========================================
-	   Nutrition Grid
-	   ========================================== */
-	.nutrition-grid {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 12px;
-	}
-
-	.nutrition-card {
-		background: #e5e7eb; /* Gris clair par défaut */
-		border-radius: 20px;
-		padding: 16px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		gap: 4px;
-	}
-
-	.card-calories {
-		background: #f0fdf4;
-		border: 1px solid #dcfce7;
-	}
-
-	.pill-label {
-		font-size: 12px;
-		font-weight: 500;
-		color: #4b5563;
-	}
-
-	.pill-value {
-		font-size: 24px;
-		font-weight: 800;
-		color: #111827;
-	}
-
-	.value-green {
-		color: #059669;
-	}
-
-	.pill-unit {
-		font-size: 12px;
-		color: #6b7280;
-	}
-
-	/* ==========================================
-	   Day Selector
-	   ========================================== */
-	.day-selector {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		background: #e5e7eb;
-		border-radius: 16px;
-		padding: 14px 20px;
-		border: none;
-		cursor: pointer;
-		font-family: 'Poppins', sans-serif;
-	}
-
-	.day-selector-left {
-		display: flex;
-		align-items: center;
-		gap: 12px;
-		font-size: 14px;
-		font-weight: 500;
-		color: #374151;
-	}
-
-	.day-icon {
-		color: #059669;
-	}
-
-	.day-chevron {
-		color: #6b7280;
-	}
-
-	/* ==========================================
-	   History Section
-	   ========================================== */
-	.history-header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 16px;
-	}
-
-	.section-title {
-		font-size: 18px;
-		font-weight: 700;
-		color: #111827;
-	}
-
-	.btn-voir-tout {
-		background: none;
-		border: none;
-		font-size: 14px;
-		font-weight: 600;
-		color: #059669;
-		cursor: pointer;
-		font-family: 'Poppins', sans-serif;
-	}
-
-	.history-list {
-		display: flex;
-		flex-direction: column;
-		gap: 12px;
-	}
-
-	.history-item {
-		display: flex;
-		align-items: center;
-		gap: 14px;
-		background: #fff;
-		border-radius: 20px;
-		padding: 16px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-	}
-
-	.history-icon {
-		width: 44px;
-		height: 44px;
-		border-radius: 14px;
-		background: #dcfce7;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: #059669;
-		flex-shrink: 0;
-	}
-
-	.history-info {
-		flex: 1;
-		min-width: 0;
-	}
-
-	.history-name {
-		font-size: 14px;
-		font-weight: 700;
-		color: #111827;
-	}
-
-	.history-details {
-		font-size: 12px;
-		color: #6b7280;
-		margin-top: 2px;
-	}
-
-	.btn-delete {
-		width: 36px;
-		height: 36px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: #ef4444;
-		background: none;
-		border: none;
-		cursor: pointer;
-	}
-
-	.empty-card {
-		padding: 30px;
-		text-align: center;
-		color: #9ca3af;
-		font-size: 14px;
-	}
-
-	/* ==========================================
-	   Résumé des objectifs
-	   ========================================== */
-	.card-objectifs {
-		background: #ecfdf5; /* Très léger vert */
-		border-radius: 24px;
-		padding: 24px;
-		border: 1px solid #d1fae5;
-	}
-
-	.objectifs-title {
-		font-size: 18px;
-		font-weight: 700;
-		color: #111827;
-		margin-bottom: 20px;
-	}
-
-	.objectif-item {
-		margin-bottom: 20px;
-	}
-
-	.objectif-item:last-child {
-		margin-bottom: 0;
-	}
-
-	.objectif-row {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 10px;
-	}
-
-	.objectif-label {
-		font-size: 14px;
-		color: #4b5563;
-	}
-
-	.objectif-value {
-		font-size: 18px;
-		font-weight: 800;
-	}
-
-	.value-red {
-		color: #b91c1c;
-	}
-
-	.progress-bar {
-		width: 100%;
-		height: 10px;
-		background: #f3f4f6;
-		border-radius: 10px;
-		overflow: hidden;
-	}
-
-	.progress-fill {
-		height: 100%;
-		border-radius: 10px;
-		transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	.fill-green-dark {
-		background: #065f46;
-	}
-
-	.fill-red {
-		background: linear-gradient(90deg, #ef4444, #f87171);
-	}
-</style>
+<SaveDayPopup visible={showSavePopup} onClose={() => (showSavePopup = false)} />
