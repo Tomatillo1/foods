@@ -3,8 +3,8 @@
   "short_name": "Nutri",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "white",
-  "background_color": "white",
+  "theme_color": "#065f46",
+  "background_color": "#065f46",
   "icons": [
     {
       "sizes": "192x192",
