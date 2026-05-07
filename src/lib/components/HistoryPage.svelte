@@ -38,15 +38,7 @@
 	}
 </script>
 
-<div class="py-5 animate-fade-in">
-	<!-- En-tête avec Logo -->
-	<header class="mb-4 flex items-center justify-between">
-		<div class="logo-container">
-			<span class="text-2xl font-extrabold text-[#22c55e] -tracking-[1px]"
-				>Nutri<span class="text-[#16a34a]">Track</span></span
-			>
-		</div>
-	</header>
+<div class="py-2 animate-fade-in">
 
 	<div>
 		<div class="flex justify-between items-start mb-8">

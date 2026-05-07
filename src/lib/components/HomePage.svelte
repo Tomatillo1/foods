@@ -202,16 +202,7 @@
 	}
 </script>
 
-<div class="py-5 animate-fade-in flex flex-col gap-5">
-	<!-- ==========================================
-	     EN-TÊTE : NutriTrack
-	     ========================================== -->
-	<header class="pb-4">
-		<h1 class="text-2xl font-extrabold text-[#065f46] tracking-tight">
-			NutriTrack
-		</h1>
-	</header>
-
+<div class="py-2 animate-fade-in flex flex-col gap-5">
 	<!-- ==========================================
 	     ZONE 1 : Formulaire d'ajout rapide
 	     ========================================== -->
@@ -295,7 +286,7 @@
 				<!-- Résultat dynamique -->
 				{#if apercuValeurs()}
 					<div
-						class="mt-2 px-3 py-2 bg-[#f0fdf4] rounded-[10px] flex items-center gap-2 text-[13px] text-[#065f46] border border-dashed border-[#bbf7d0] animate-fade-in"
+						class="mt-2 px-3 py-2 bg-[#f0fdf4] rounded-[10px] flex items-center gap-2 text-[13px] text-[#065f46] border-1 border-[#bbf7d0] animate-fade-in"
 					>
 						<span
 							>Total : <strong
@@ -335,7 +326,6 @@
 			<span class="text-2xl font-extrabold text-[#059669]"
 				>{Math.round($todayTotals.calories)}</span
 			>
-			<span class="text-xs text-[#6b7280]">kcal</span>
 		</div>
 		<!-- Protéines -->
 		<div
@@ -370,14 +360,13 @@
 	     ZONE 3 : Sélecteur de jour
 	     ========================================== -->
 	<button
-		class="flex items-center justify-between bg-[#e5e7eb] rounded-[16px] px-5 py-3.5 border-none cursor-pointer font-['Poppins']"
+		class="flex items-center justify-center bg-[#065f46] rounded-[16px] px-5 py-3.5 border-none cursor-pointer font-['Poppins']"
 		onclick={() => (showSavePopup = true)}
 	>
-		<div class="flex items-center gap-3 text-sm font-medium text-[#374151]">
-			<Calendar size={18} class="text-[#059669]" />
+		<div class="flex items-center gap-3 text-sm font-medium text-white">
+			<Calendar size={18} class="text-white" />
 			<span>Sauvegarder le jour</span>
 		</div>
-		<ChevronDown size={18} class="text-[#6b7280]" />
 	</button>
 
 	<!-- ==========================================
@@ -397,7 +386,8 @@
 		{:else}
 			<div class="flex flex-col gap-3">
 				{#each $todayEntries as entry, i (entry.id)}
-					{@const Icon = ICON_MAP[entry.categorie || "Autre"] || Utensils}
+					{@const Icon =
+						ICON_MAP[entry.categorie || "Autre"] || Utensils}
 					<div
 						class="flex items-center gap-3.5 bg-white rounded-[20px] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
 					>
@@ -447,7 +437,11 @@
 		<div class="mb-5 last:mb-0">
 			<div class="flex items-center justify-between mb-2.5">
 				<span class="text-sm text-[#4b5563]">Calories restantes</span>
-				<span class="text-lg font-extrabold {$caloriesRestantes.depasse ? 'text-[#ef4444]' : 'text-[#059669]'}">
+				<span
+					class="text-lg font-extrabold {$caloriesRestantes.depasse
+						? 'text-[#ef4444]'
+						: 'text-[#059669]'}"
+				>
 					{$caloriesRestantes.depasse
 						? "0.0"
 						: $caloriesRestantes.valeur.toFixed(1)} kcal
@@ -457,7 +451,9 @@
 				class="w-full h-2.5 bg-[#f3f4f6] rounded-[10px] overflow-hidden"
 			>
 				<div
-					class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] {$caloriesRestantes.depasse ? 'bg-[#ef4444]' : 'bg-[#065f46]'}"
+					class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] {$caloriesRestantes.depasse
+						? 'bg-[#ef4444]'
+						: 'bg-[#065f46]'}"
 					style="width: {caloriePourcentage}%"
 				></div>
 			</div>
@@ -467,7 +463,11 @@
 		<div class="mb-5 last:mb-0">
 			<div class="flex items-center justify-between mb-2.5">
 				<span class="text-sm text-[#4b5563]">Protéines restantes</span>
-				<span class="text-lg font-extrabold {$proteinesRestantes.depasse ? 'text-[#ef4444]' : 'text-[#059669]'}">
+				<span
+					class="text-lg font-extrabold {$proteinesRestantes.depasse
+						? 'text-[#ef4444]'
+						: 'text-[#059669]'}"
+				>
 					{$proteinesRestantes.depasse
 						? "0.0"
 						: $proteinesRestantes.valeur.toFixed(1)}g
@@ -477,7 +477,9 @@
 				class="w-full h-2.5 bg-[#f3f4f6] rounded-[10px] overflow-hidden"
 			>
 				<div
-					class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] {$proteinesRestantes.depasse ? 'bg-[#ef4444]' : 'bg-[#065f46]'}"
+					class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] {$proteinesRestantes.depasse
+						? 'bg-[#ef4444]'
+						: 'bg-[#065f46]'}"
 					style="width: {proteinePourcentage}%"
 				></div>
 			</div>

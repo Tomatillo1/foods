@@ -45,11 +45,11 @@
 	/** Couleurs par catégorie d'affichage */
 	const colors: Record<string, string> = {
 		Protéines: "text-green-700",
-		"Féculents & Pains": "text-green-800",
-		Légumes: "text-green-600",
+		"Féculents & Pains": "text-green-700",
+		Légumes: "text-green-700",
 		Laitages: "text-green-700",
-		Boissons: "text-green-900",
-		Sucreries: "text-orange-500",
+		Boissons: "text-green-700",
+		Sucreries: "text-green-700",
 	};
 
 	/** Regroupement des catégories pour le rendu style screenshot */
@@ -100,17 +100,7 @@
 	});
 </script>
 
-<div class="py-5 animate-fade-in">
-	<!-- En-tête avec Logo -->
-	<header class="mb-4 flex items-center justify-between">
-		<div class="logo-container">
-			<span
-				class="text-2xl font-extrabold text-[#15803d] -tracking-[0.5px]"
-				>Nutri<span class="text-[#16a34a]">Track</span></span
-			>
-		</div>
-	</header>
-
+<div class="py-2 animate-fade-in">
 	<div>
 		<h1 class="text-[22px] font-bold text-[#111827] mb-5">
 			Répertoire des Aliments
