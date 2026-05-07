@@ -22,6 +22,7 @@ export interface Food {
 export interface FoodEntry {
 	id: string;
 	nom: string;
+	categorie?: Categorie;
 	quantite: number; // en grammes
 	calories: number;
 	proteines: number;

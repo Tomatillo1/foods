@@ -10,6 +10,11 @@
 		Calendar,
 		Droplet,
 		Leaf,
+		Wheat,
+		Beef,
+		Milk,
+		CupSoda,
+		Utensils,
 	} from "lucide-svelte";
 	import {
 		todayEntries,
@@ -23,6 +28,20 @@
 	import type { Food } from "$lib/types";
 	import CustomFoodPopup from "./CustomFoodPopup.svelte";
 	import SaveDayPopup from "./SaveDayPopup.svelte";
+	import type { Categorie } from "$lib/types";
+
+	/** Mapping des icônes par catégorie (identique à la page Aliments) */
+	const ICON_MAP: Record<string, any> = {
+		Légumes: Leaf,
+		Féculents: Wheat,
+		Pains: Wheat,
+		"Protéines animales": Beef,
+		"Protéines végétales": Beef,
+		Fromages: Milk,
+		Sucreries: Utensils,
+		Boissons: CupSoda,
+		Autre: Utensils,
+	};
 
 	// ==========================================
 	// État du formulaire
@@ -94,7 +113,6 @@
 		Math.min(100, ($todayTotals.proteines / OBJECTIFS.proteines) * 100),
 	);
 
-	/** Valeurs calculées en temps réel pour l'aperçu */
 	let apercuValeurs = $derived(() => {
 		if (!produitActuel || !quantite || Number(quantite) <= 0) return null;
 		const q = Number(quantite);
@@ -139,6 +157,7 @@
 		// Calcul proportionnel basé sur les valeurs pour 100g
 		todayEntries.ajouter({
 			nom: produitActuel.nom,
+			categorie: categorieSelectionnee as Categorie,
 			quantite: q,
 			calories: Math.round(produitActuel.valeurs.calories * ratio),
 			proteines:
@@ -165,6 +184,7 @@
 	}) {
 		todayEntries.ajouter({
 			nom: data.nom,
+			categorie: "Autre",
 			quantite: 0, // Pas de quantité pour un aliment custom
 			calories: data.calories,
 			proteines: data.proteines,
@@ -186,20 +206,26 @@
 	<!-- ==========================================
 	     EN-TÊTE : NutriTrack
 	     ========================================== -->
-	<header class="py-2.5">
-		<h1 class="text-2xl font-extrabold text-[#065f46] tracking-tight">NutriTrack</h1>
+	<header class="pb-4">
+		<h1 class="text-2xl font-extrabold text-[#065f46] tracking-tight">
+			NutriTrack
+		</h1>
 	</header>
 
 	<!-- ==========================================
 	     ZONE 1 : Formulaire d'ajout rapide
 	     ========================================== -->
-	<section class="bg-white rounded-[24px] p-6 shadow-[0_4px_15px_rgba(0,0,0,0.02)] border border-black/5">
+	<section
+		class="bg-white rounded-[24px] p-6 shadow-[0_4px_15px_rgba(0,0,0,0.02)] border border-black/5"
+	>
 		<h2 class="text-[19px] font-bold text-[#111827] mb-5">Ajout rapide</h2>
 
 		<div class="flex flex-col gap-4">
 			<!-- Catégorie -->
 			<div class="flex flex-col gap-1.5">
-				<label for="select-categorie" class="text-[13px] font-medium text-[#374151]"
+				<label
+					for="select-categorie"
+					class="text-[13px] font-medium text-[#374151]"
 					>Catégorie</label
 				>
 				<div class="relative">
@@ -214,13 +240,20 @@
 							<option value={cat}>{cat}</option>
 						{/each}
 					</select>
-					<ChevronDown size={18} class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#9ca3af] pointer-events-none" />
+					<ChevronDown
+						size={18}
+						class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#9ca3af] pointer-events-none"
+					/>
 				</div>
 			</div>
 
 			<!-- Produit -->
 			<div class="flex flex-col gap-1.5">
-				<label for="select-produit" class="text-[13px] font-medium text-[#374151]">Produit</label>
+				<label
+					for="select-produit"
+					class="text-[13px] font-medium text-[#374151]"
+					>Produit</label
+				>
 				<div class="relative">
 					<select
 						id="select-produit"
@@ -235,13 +268,18 @@
 							<option value={produit.nom}>{produit.nom}</option>
 						{/each}
 					</select>
-					<ChevronDown size={18} class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#9ca3af] pointer-events-none" />
+					<ChevronDown
+						size={18}
+						class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#9ca3af] pointer-events-none"
+					/>
 				</div>
 			</div>
 
 			<!-- Quantité -->
 			<div class="flex flex-col gap-1.5">
-				<label for="input-quantite" class="text-[13px] font-medium text-[#374151]"
+				<label
+					for="input-quantite"
+					class="text-[13px] font-medium text-[#374151]"
 					>Quantité (g)</label
 				>
 				<input
@@ -256,7 +294,9 @@
 
 				<!-- Résultat dynamique -->
 				{#if apercuValeurs()}
-					<div class="mt-2 px-3 py-2 bg-[#f0fdf4] rounded-[10px] flex items-center gap-2 text-[13px] text-[#065f46] border border-dashed border-[#bbf7d0] animate-fade-in">
+					<div
+						class="mt-2 px-3 py-2 bg-[#f0fdf4] rounded-[10px] flex items-center gap-2 text-[13px] text-[#065f46] border border-dashed border-[#bbf7d0] animate-fade-in"
+					>
 						<span
 							>Total : <strong
 								>{apercuValeurs()?.calories} kcal</strong
@@ -288,7 +328,9 @@
 	     ========================================== -->
 	<section class="grid grid-cols-2 gap-3">
 		<!-- Calories -->
-		<div class="bg-[#f0fdf4] border border-[#dcfce7] rounded-[20px] p-4 flex flex-col items-center gap-1">
+		<div
+			class="bg-[#f0fdf4] border border-[#dcfce7] rounded-[20px] p-4 flex flex-col items-center gap-1"
+		>
 			<span class="text-xs font-medium text-[#4b5563]">Calories</span>
 			<span class="text-2xl font-extrabold text-[#059669]"
 				>{Math.round($todayTotals.calories)}</span
@@ -296,27 +338,41 @@
 			<span class="text-xs text-[#6b7280]">kcal</span>
 		</div>
 		<!-- Protéines -->
-		<div class="bg-[#e5e7eb] rounded-[20px] p-4 flex flex-col items-center gap-1">
+		<div
+			class="bg-[#e5e7eb] rounded-[20px] p-4 flex flex-col items-center gap-1"
+		>
 			<span class="text-xs font-medium text-[#4b5563]">Protéines</span>
-			<span class="text-2xl font-extrabold text-[#111827]">{Math.round($todayTotals.proteines)}g</span
+			<span class="text-2xl font-extrabold text-[#111827]"
+				>{Math.round($todayTotals.proteines)}g</span
 			>
 		</div>
 		<!-- Glucides -->
-		<div class="bg-[#e5e7eb] rounded-[20px] p-4 flex flex-col items-center gap-1">
+		<div
+			class="bg-[#e5e7eb] rounded-[20px] p-4 flex flex-col items-center gap-1"
+		>
 			<span class="text-xs font-medium text-[#4b5563]">Glucides</span>
-			<span class="text-2xl font-extrabold text-[#111827]">{Math.round($todayTotals.glucides)}g</span>
+			<span class="text-2xl font-extrabold text-[#111827]"
+				>{Math.round($todayTotals.glucides)}g</span
+			>
 		</div>
 		<!-- Lipides -->
-		<div class="bg-[#e5e7eb] rounded-[20px] p-4 flex flex-col items-center gap-1">
+		<div
+			class="bg-[#e5e7eb] rounded-[20px] p-4 flex flex-col items-center gap-1"
+		>
 			<span class="text-xs font-medium text-[#4b5563]">Lipides</span>
-			<span class="text-2xl font-extrabold text-[#111827]">{Math.round($todayTotals.lipides)}g</span>
+			<span class="text-2xl font-extrabold text-[#111827]"
+				>{Math.round($todayTotals.lipides)}g</span
+			>
 		</div>
 	</section>
 
 	<!-- ==========================================
 	     ZONE 3 : Sélecteur de jour
 	     ========================================== -->
-	<button class="flex items-center justify-between bg-[#e5e7eb] rounded-[16px] px-5 py-3.5 border-none cursor-pointer font-['Poppins']" onclick={() => (showSavePopup = true)}>
+	<button
+		class="flex items-center justify-between bg-[#e5e7eb] rounded-[16px] px-5 py-3.5 border-none cursor-pointer font-['Poppins']"
+		onclick={() => (showSavePopup = true)}
+	>
 		<div class="flex items-center gap-3 text-sm font-medium text-[#374151]">
 			<Calendar size={18} class="text-[#059669]" />
 			<span>Sauvegarder le jour</span>
@@ -330,29 +386,33 @@
 	<section class="history-section">
 		<div class="flex items-center justify-between mb-4">
 			<h2 class="text-lg font-bold text-[#111827]">Historique du jour</h2>
-			<button class="bg-none border-none text-sm font-semibold text-[#059669] cursor-pointer font-['Poppins']">Voir tout</button>
 		</div>
 
 		{#if $todayEntries.length === 0}
-			<div class="bg-white rounded-[24px] p-[30px] shadow-[0_4px_15px_rgba(0,0,0,0.02)] border border-black/5 text-center text-[#9ca3af] text-sm">
+			<div
+				class="bg-white rounded-[24px] p-[30px] shadow-[0_4px_15px_rgba(0,0,0,0.02)] border border-black/5 text-center text-[#9ca3af] text-sm"
+			>
 				<p>Aucun aliment ajouté aujourd'hui</p>
 			</div>
 		{:else}
 			<div class="flex flex-col gap-3">
 				{#each $todayEntries as entry, i (entry.id)}
-					<div class="flex items-center gap-3.5 bg-white rounded-[20px] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
-						<!-- Icône circulaire -->
-						<div class="w-11 h-11 rounded-[14px] bg-[#dcfce7] flex items-center justify-center text-[#059669] flex-shrink-0">
-							{#if i % 2 === 0}
-								<Droplet size={18} />
-							{:else}
-								<Leaf size={18} />
-							{/if}
+					{@const Icon = ICON_MAP[entry.categorie || "Autre"] || Utensils}
+					<div
+						class="flex items-center gap-3.5 bg-white rounded-[20px] p-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
+					>
+						<!-- Icône de la catégorie -->
+						<div
+							class="w-11 h-11 rounded-[14px] bg-[#dcfce7] flex items-center justify-center text-[#059669] flex-shrink-0"
+						>
+							<Icon size={18} />
 						</div>
 
 						<!-- Infos aliment -->
 						<div class="flex-1 min-w-0">
-							<p class="text-sm font-bold text-[#111827]">{entry.nom}</p>
+							<p class="text-sm font-bold text-[#111827]">
+								{entry.nom}
+							</p>
 							<p class="text-xs text-[#6b7280] mt-0.5">
 								{#if entry.quantite > 0}
 									{entry.quantite}g •
@@ -379,21 +439,25 @@
 	     ZONE 5 : Résumé des objectifs
 	     ========================================== -->
 	<section class="bg-[#ecfdf5] rounded-[24px] p-6 border border-[#d1fae5]">
-		<h2 class="text-lg font-bold text-[#111827] mb-5">Résumé des objectifs</h2>
+		<h2 class="text-lg font-bold text-[#111827] mb-5">
+			Résumé des objectifs
+		</h2>
 
 		<!-- Calories restantes -->
 		<div class="mb-5 last:mb-0">
 			<div class="flex items-center justify-between mb-2.5">
 				<span class="text-sm text-[#4b5563]">Calories restantes</span>
-				<span class="text-lg font-extrabold text-[#059669]">
+				<span class="text-lg font-extrabold {$caloriesRestantes.depasse ? 'text-[#ef4444]' : 'text-[#059669]'}">
 					{$caloriesRestantes.depasse
-						? "0"
-						: $caloriesRestantes.valeur} kcal
+						? "0.0"
+						: $caloriesRestantes.valeur.toFixed(1)} kcal
 				</span>
 			</div>
-			<div class="w-full h-2.5 bg-[#f3f4f6] rounded-[10px] overflow-hidden">
+			<div
+				class="w-full h-2.5 bg-[#f3f4f6] rounded-[10px] overflow-hidden"
+			>
 				<div
-					class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] bg-[#065f46]"
+					class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] {$caloriesRestantes.depasse ? 'bg-[#ef4444]' : 'bg-[#065f46]'}"
 					style="width: {caloriePourcentage}%"
 				></div>
 			</div>
@@ -403,15 +467,17 @@
 		<div class="mb-5 last:mb-0">
 			<div class="flex items-center justify-between mb-2.5">
 				<span class="text-sm text-[#4b5563]">Protéines restantes</span>
-				<span class="text-lg font-extrabold text-[#b91c1c]">
+				<span class="text-lg font-extrabold {$proteinesRestantes.depasse ? 'text-[#ef4444]' : 'text-[#059669]'}">
 					{$proteinesRestantes.depasse
-						? "0"
-						: $proteinesRestantes.valeur}g
+						? "0.0"
+						: $proteinesRestantes.valeur.toFixed(1)}g
 				</span>
 			</div>
-			<div class="w-full h-2.5 bg-[#f3f4f6] rounded-[10px] overflow-hidden">
+			<div
+				class="w-full h-2.5 bg-[#f3f4f6] rounded-[10px] overflow-hidden"
+			>
 				<div
-					class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] bg-linear-to-r from-[#ef4444] to-[#f87171]"
+					class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] {$proteinesRestantes.depasse ? 'bg-[#ef4444]' : 'bg-[#065f46]'}"
 					style="width: {proteinePourcentage}%"
 				></div>
 			</div>

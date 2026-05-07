@@ -4,11 +4,22 @@
   Organisé en sections dépliables par catégorie.
 -->
 <script lang="ts">
-	import { ChevronDown, ChevronUp, Search, Utensils, Beef, Carrot, CupSoda, Milk, Wheat, Leaf } from 'lucide-svelte';
-	import { foodDatabase } from '$lib/data/foodData';
+	import {
+		ChevronDown,
+		ChevronUp,
+		Search,
+		Utensils,
+		Beef,
+		Carrot,
+		CupSoda,
+		Milk,
+		Wheat,
+		Leaf,
+	} from "lucide-svelte";
+	import { foodDatabase } from "$lib/data/foodData";
 
 	/** Recherche */
-	let searchQuery = $state('');
+	let searchQuery = $state("");
 
 	/** Catégories dépliées (toutes fermées par défaut sauf si recherche) */
 	let categoriesOuvertes = $state<Record<string, boolean>>({});
@@ -17,53 +28,55 @@
 	function toggleCategorie(cat: string) {
 		categoriesOuvertes = {
 			...categoriesOuvertes,
-			[cat]: !categoriesOuvertes[cat]
+			[cat]: !categoriesOuvertes[cat],
 		};
 	}
 
 	/** Icônes par catégorie d'affichage */
 	const icons: Record<string, any> = {
-		'Protéines': Beef,
-		'Féculents & Pains': Wheat,
-		'Légumes': Leaf,
-		'Laitages': Milk,
-		'Boissons': CupSoda,
-		'Sucreries': Utensils
+		Protéines: Beef,
+		"Féculents & Pains": Wheat,
+		Légumes: Leaf,
+		Laitages: Milk,
+		Boissons: CupSoda,
+		Sucreries: Utensils,
 	};
 
 	/** Couleurs par catégorie d'affichage */
 	const colors: Record<string, string> = {
-		'Protéines': 'text-green-700',
-		'Féculents & Pains': 'text-green-800',
-		'Légumes': 'text-green-600',
-		'Laitages': 'text-green-700',
-		'Boissons': 'text-green-900',
-		'Sucreries': 'text-orange-500'
+		Protéines: "text-green-700",
+		"Féculents & Pains": "text-green-800",
+		Légumes: "text-green-600",
+		Laitages: "text-green-700",
+		Boissons: "text-green-900",
+		Sucreries: "text-orange-500",
 	};
 
 	/** Regroupement des catégories pour le rendu style screenshot */
 	const displayDatabase = $derived.by(() => {
 		const query = searchQuery.toLowerCase().trim();
-		
+
 		// Mappage des catégories de la DB vers les catégories d'affichage
 		const mapping: Record<string, string> = {
-			'Protéines animales': 'Protéines',
-			'Protéines végétales': 'Protéines',
-			'Féculents': 'Féculents & Pains',
-			'Pains': 'Féculents & Pains',
-			'Légumes': 'Légumes',
-			'Fromages': 'Laitages',
-			'Boissons': 'Boissons',
-			'Sucreries': 'Sucreries'
+			"Protéines animales": "Protéines",
+			"Protéines végétales": "Protéines",
+			Féculents: "Féculents & Pains",
+			Pains: "Féculents & Pains",
+			Légumes: "Légumes",
+			Fromages: "Laitages",
+			Boissons: "Boissons",
+			Sucreries: "Sucreries",
 		};
 
 		const grouped: Record<string, any[]> = {};
 
 		for (const [dbCat, items] of Object.entries(foodDatabase)) {
 			const displayCat = mapping[dbCat] || dbCat;
-			
-			const filtered = items.filter(item => 
-				item.nom.toLowerCase().includes(query) || displayCat.toLowerCase().includes(query)
+
+			const filtered = items.filter(
+				(item) =>
+					item.nom.toLowerCase().includes(query) ||
+					displayCat.toLowerCase().includes(query),
 			);
 
 			if (filtered.length > 0) {
@@ -79,31 +92,39 @@
 	$effect(() => {
 		if (searchQuery.length > 0) {
 			const newState: Record<string, boolean> = {};
-			Object.keys(displayDatabase).forEach(cat => newState[cat] = true);
+			Object.keys(displayDatabase).forEach(
+				(cat) => (newState[cat] = true),
+			);
 			categoriesOuvertes = newState;
 		}
 	});
-
 </script>
 
 <div class="py-5 animate-fade-in">
 	<!-- En-tête avec Logo -->
-	<header class="mb-6 flex items-center justify-between">
+	<header class="mb-4 flex items-center justify-between">
 		<div class="logo-container">
-			<span class="text-2xl font-extrabold text-[#15803d] -tracking-[0.5px]">Nutri<span class="text-[#16a34a]">Track</span></span>
+			<span
+				class="text-2xl font-extrabold text-[#15803d] -tracking-[0.5px]"
+				>Nutri<span class="text-[#16a34a]">Track</span></span
+			>
 		</div>
 	</header>
 
 	<div>
-		<h1 class="text-[22px] font-bold text-[#111827] mb-5">Répertoire des Aliments</h1>
+		<h1 class="text-[22px] font-bold text-[#111827] mb-5">
+			Répertoire des Aliments
+		</h1>
 
 		<!-- Barre de recherche -->
 		<div class="mb-6">
-			<div class="relative flex items-center bg-white rounded-xl border border-[#e5e7eb] px-4 transition-all focus-within:border-[#10b981] focus-within:ring-4 focus-within:ring-[#10b981]/5">
+			<div
+				class="relative flex items-center bg-white rounded-xl border border-[#e5e7eb] px-4 transition-all focus-within:border-[#10b981] focus-within:ring-4 focus-within:ring-[#10b981]/5"
+			>
 				<Search size={18} class="text-[#9ca3af] mr-3" />
-				<input 
-					type="text" 
-					placeholder="Rechercher un aliment..." 
+				<input
+					type="text"
+					placeholder="Rechercher un aliment..."
 					bind:value={searchQuery}
 					class="w-full h-[52px] border-none bg-transparent outline-none text-base text-[#374151] placeholder:text-[#9ca3af] placeholder:font-normal"
 				/>
@@ -113,13 +134,19 @@
 		<!-- Liste par catégorie -->
 		<div class="flex flex-col gap-4">
 			{#each Object.entries(displayDatabase) as [categorie, aliments]}
-				<div class="bg-white rounded-[18px] shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden border border-[#f3f4f6]">
+				<div
+					class="bg-white rounded-[18px] shadow-[0_2px_8px_rgba(0,0,0,0.04)] overflow-hidden border border-[#f3f4f6]"
+				>
 					<button
 						onclick={() => toggleCategorie(categorie)}
 						class="w-full flex items-center justify-between p-[18px_20px] bg-none border-none cursor-pointer text-left"
 					>
 						<div class="flex items-center gap-3.5">
-							<div class="flex items-center justify-center {colors[categorie] || 'text-green-600'}">
+							<div
+								class="flex items-center justify-center {colors[
+									categorie
+								] || 'text-green-600'}"
+							>
 								{#if icons[categorie]}
 									{@const Icon = icons[categorie]}
 									<Icon size={20} strokeWidth={2.5} />
@@ -127,7 +154,9 @@
 									<Utensils size={20} strokeWidth={2.5} />
 								{/if}
 							</div>
-							<span class="text-lg font-bold text-[#1f2937]">{categorie}</span>
+							<span class="text-lg font-bold text-[#1f2937]"
+								>{categorie}</span
+							>
 						</div>
 						<div class="header-right">
 							{#if categoriesOuvertes[categorie]}
@@ -139,18 +168,38 @@
 					</button>
 
 					{#if categoriesOuvertes[categorie]}
-						<div class="px-5 pb-5 flex flex-col gap-0 animate-slide-down">
+						<div
+							class="px-5 pb-5 flex flex-col gap-0 animate-slide-down"
+						>
 							{#each aliments as aliment}
-								<div class="flex justify-between items-center py-3.5 border-b border-[#f3f4f6] last:border-none">
+								<div
+									class="flex justify-between items-center py-3.5 border-b border-[#f3f4f6] last:border-none"
+								>
 									<div class="flex flex-col gap-0.5">
-										<span class="text-[15px] font-semibold text-[#374151]">{aliment.nom}</span>
-										<div class="flex gap-2 text-[11px] text-[#9ca3af] font-medium">
-											<span>P: {aliment.valeurs.proteines}g</span>
-											<span>G: {aliment.valeurs.glucides}g</span>
-											<span>L: {aliment.valeurs.lipides}g</span>
+										<span
+											class="text-[15px] font-semibold text-[#374151]"
+											>{aliment.nom}</span
+										>
+										<div
+											class="flex gap-2 text-[11px] text-[#9ca3af] font-medium"
+										>
+											<span
+												>P: {aliment.valeurs
+													.proteines}g</span
+											>
+											<span
+												>G: {aliment.valeurs
+													.glucides}g</span
+											>
+											<span
+												>L: {aliment.valeurs
+													.lipides}g</span
+											>
 										</div>
 									</div>
-									<div class="text-[15px] font-bold text-[#166534] whitespace-nowrap">
+									<div
+										class="text-[15px] font-bold text-[#166534] whitespace-nowrap"
+									>
 										{aliment.valeurs.calories} kcal
 									</div>
 								</div>
@@ -162,5 +211,3 @@
 		</div>
 	</div>
 </div>
-
-
