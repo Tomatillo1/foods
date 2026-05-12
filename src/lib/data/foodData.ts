@@ -183,6 +183,10 @@ export const foodDatabase: Record<string, Food[]> = {
       nom: "Semoule",
       valeurs: { calories: 361, proteines: 13, glucides: 72, lipides: 1.8 },
     },
+    {
+      nom: "Flocon d'avoine",
+      valeurs: { calories: 371, proteines: 11, glucides: 61, lipides: 6.8 },
+    },
   ],
 
   Protéine: [
@@ -262,6 +266,18 @@ export const foodDatabase: Record<string, Food[]> = {
   ],
 
   Sauces: [
+    {
+      nom: "Huile d'olive",
+      valeurs: { calories: 821, proteines: 0, glucides: 0, lipides: 91 },
+    },
+    {
+      nom: "Vinaigre",
+      valeurs: { calories: 104, proteines: 0.2, glucides: 21, lipides: 0 },
+    },
+    {
+      nom: "Moutarde",
+      valeurs: { calories: 144, proteines: 7.6, glucides: 2.6, lipides: 10 },
+    },
     {
       nom: "Sauce tomate",
       valeurs: { calories: 27, proteines: 1.2, glucides: 4.5, lipides: 0.5 },
