@@ -5,15 +5,17 @@
 <script lang="ts">
     import {
         Trash2,
-        PlusCircle,
+        Plus,
         ChevronDown,
         Calendar,
-        Droplet,
-        Leaf,
-        Wheat,
+        Apple,
+        Carrot,
         Beef,
         Milk,
         CupSoda,
+        Wheat,
+        Candy,
+        Droplet,
         Utensils,
     } from "lucide-svelte";
     import {
@@ -32,14 +34,14 @@
 
     /** Mapping des icônes par catégorie (identique à la page Aliments) */
     const ICON_MAP: Record<string, any> = {
-        Légumes: Leaf,
+        Protéines: Beef,
         Féculents: Wheat,
-        Pains: Wheat,
-        "Protéines animales": Beef,
-        "Protéines végétales": Beef,
-        Fromages: Milk,
-        Sucreries: Utensils,
+        Légumes: Carrot,
+        Laitages: Milk,
         Boissons: CupSoda,
+        Sucreries: Candy,
+        Fruits: Apple,
+        Sauces: Droplet,
         Autre: Utensils,
     };
 
@@ -121,6 +123,10 @@
             calories: Math.round(produitActuel.valeurs.calories * ratio),
             proteines:
                 Math.round(produitActuel.valeurs.proteines * ratio * 10) / 10,
+            glucides:
+                Math.round(produitActuel.valeurs.glucides * ratio * 10) / 10,
+            lipides:
+                Math.round(produitActuel.valeurs.lipides * ratio * 10) / 10,
         };
     });
 
@@ -286,16 +292,24 @@
                 <!-- Résultat dynamique -->
                 {#if apercuValeurs()}
                     <div
-                        class="mt-2 px-3 py-2 bg-[#f0fdf4] rounded-[10px] flex items-center gap-2 text-[13px] text-[#065f46] border-1 border-[#bbf7d0] animate-fade-in"
+                        class="mt-2 px-3 py-2 bg-[#f0fdf4] rounded-[10px] flex items-center gap-2 text-[13px] text-[#065f46] border border-[#bbf7d0] animate-fade-in"
                     >
                         <span
                             >Total : <strong
                                 >{apercuValeurs()?.calories} kcal</strong
                             ></span
                         >
-                        <span class="text-[#bbf7d0]">•</span>
+                        <span class="text-[#065f46]">•</span>
                         <span
                             ><strong>{apercuValeurs()?.proteines}g</strong> P</span
+                        >
+                        <span class="text-[#065f46]">•</span>
+                        <span
+                            ><strong>{apercuValeurs()?.glucides}g</strong> G</span
+                        >
+                        <span class="text-[#065f46]">•</span>
+                        <span
+                            ><strong>{apercuValeurs()?.lipides}g</strong> L</span
                         >
                     </div>
                 {/if}
@@ -308,8 +322,8 @@
                 onclick={validerFormulaire}
                 disabled={!formulaireValide}
             >
-                <PlusCircle size={18} />
-                Valider
+                <Plus size={18} />
+                Ajouter
             </button>
         </div>
     </section>
@@ -329,10 +343,10 @@
         </div>
         <!-- Protéines -->
         <div
-            class="bg-[#e5e7eb] rounded-[20px] p-4 flex flex-col items-center gap-1"
+            class="bg-blue-50 rounded-[20px] p-4 flex flex-col items-center gap-1"
         >
             <span class="text-xs font-medium text-[#4b5563]">Protéines</span>
-            <span class="text-2xl font-extrabold text-[#111827]"
+            <span class="text-2xl font-extrabold text-sky-600"
                 >{Math.round($todayTotals.proteines)}g</span
             >
         </div>
@@ -407,7 +421,14 @@
                                 {#if entry.quantite > 0}
                                     {entry.quantite}g •
                                 {/if}
-                                {entry.calories} kcal • {entry.proteines}g P
+                                <span class="text-emerald-600 font-bold"
+                                    >{entry.calories} kcal</span
+                                >
+                                •
+                                <span class="text-sky-600 font-bold"
+                                    >{entry.proteines}g P</span
+                                >
+                                • {entry.glucides}g G • {entry.lipides}g L
                             </p>
                         </div>
 
@@ -428,7 +449,9 @@
     <!-- ==========================================
 	     ZONE 5 : Résumé des objectifs
 	     ========================================== -->
-    <section class="bg-[#ecfdf5] rounded-[24px] p-6 border border-[#d1fae5]">
+    <section
+        class="bg-white rounded-[24px] p-6 border border-black/5 shadow-[0_2px_8px_rgba(0,0,0,0.02)"
+    >
         <h2 class="text-lg font-bold text-[#111827] mb-5">
             Résumé des objectifs
         </h2>
@@ -436,7 +459,9 @@
         <!-- Calories restantes -->
         <div class="mb-5 last:mb-0">
             <div class="flex items-center justify-between mb-2.5">
-                <span class="text-sm text-[#4b5563]">Calories restantes</span>
+                <span class="text-sm font-bold text-[#111827]"
+                    >Calories restantes</span
+                >
                 <span
                     class="text-lg font-extrabold {$caloriesRestantes.depasse
                         ? 'text-[#ef4444]'
@@ -462,11 +487,13 @@
         <!-- Protéines restantes -->
         <div class="mb-5 last:mb-0">
             <div class="flex items-center justify-between mb-2.5">
-                <span class="text-sm text-[#4b5563]">Protéines restantes</span>
+                <span class="text-sm font-bold text-[#111827]"
+                    >Protéines restantes</span
+                >
                 <span
                     class="text-lg font-extrabold {$proteinesRestantes.depasse
                         ? 'text-[#ef4444]'
-                        : 'text-[#059669]'}"
+                        : 'text-sky-600'}"
                 >
                     {$proteinesRestantes.depasse
                         ? "0.0"
@@ -479,7 +506,7 @@
                 <div
                     class="h-full rounded-[10px] transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] {$proteinesRestantes.depasse
                         ? 'bg-[#ef4444]'
-                        : 'bg-[#065f46]'}"
+                        : 'bg-sky-800'}"
                     style="width: {proteinePourcentage}%"
                 ></div>
             </div>

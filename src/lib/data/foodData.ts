@@ -189,7 +189,7 @@ export const foodDatabase: Record<string, Food[]> = {
     },
   ],
 
-  Protéine: [
+  Protéines: [
     {
       nom: "Thon",
       valeurs: { calories: 109, proteines: 25, glucides: 0, lipides: 1 },

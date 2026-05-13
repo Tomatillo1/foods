@@ -141,7 +141,7 @@
                             <div
                                 class="flex items-center justify-center {colors[
                                     categorie
-                                ] || 'text-green-600'}"
+                                ] || 'text-green-700'}"
                             >
                                 {#if icons[categorie]}
                                     {@const Icon = icons[categorie]}
@@ -179,7 +179,7 @@
                                         <div
                                             class="flex gap-2 text-[11px] text-[#9ca3af] font-medium"
                                         >
-                                            <span
+                                            <span class="font-bold text-sky-600"
                                                 >P: {aliment.valeurs
                                                     .proteines}g</span
                                             >
@@ -194,7 +194,7 @@
                                         </div>
                                     </div>
                                     <div
-                                        class="text-[15px] font-bold text-[#166534] whitespace-nowrap"
+                                        class="text-[15px] font-bold text-[#059669] whitespace-nowrap"
                                     >
                                         {aliment.valeurs.calories} kcal
                                     </div>
