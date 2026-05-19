@@ -187,6 +187,10 @@ export const foodDatabase: Record<string, Food[]> = {
       nom: "Flocon d'avoine",
       valeurs: { calories: 371, proteines: 11, glucides: 61, lipides: 6.8 },
     },
+    {
+      nom: "Tortilla blé complet",
+      valeurs: { calories: 293, proteines: 5.5, glucides: 47.8, lipides: 6 },
+    },
   ],
 
   Protéines: [
@@ -233,6 +237,10 @@ export const foodDatabase: Record<string, Food[]> = {
       nom: "Parmesan",
       valeurs: { calories: 402, proteines: 32, glucides: 0, lipides: 30 },
     },
+    {
+      nom: "Beurre",
+      valeurs: { calories: 726, proteines: 0.6, glucides: 1, lipides: 80 },
+    },
   ],
 
   Sucreries: [
@@ -247,6 +255,14 @@ export const foodDatabase: Record<string, Food[]> = {
     {
       nom: "Beurre de cacahuète",
       valeurs: { calories: 628, proteines: 27, glucides: 12, lipides: 51 },
+    },
+    {
+      nom: "Compote de pomme SSA",
+      valeurs: { calories: 50, proteines: 0.3, glucides: 11, lipides: 0.1 },
+    },
+    {
+      nom: "Sucre",
+      valeurs: { calories: 400, proteines: 0, glucides: 100, lipides: 0 },
     },
   ],
 
@@ -275,8 +291,12 @@ export const foodDatabase: Record<string, Food[]> = {
       valeurs: { calories: 104, proteines: 0.2, glucides: 21, lipides: 0 },
     },
     {
-      nom: "Moutarde",
+      nom: "Moutarde forte",
       valeurs: { calories: 144, proteines: 7.6, glucides: 2.6, lipides: 10 },
+    },
+    {
+      nom: "Moutarde à l'ancienne",
+      valeurs: { calories: 172, proteines: 6.9, glucides: 9.3, lipides: 10 },
     },
     {
       nom: "Sauce tomate",
