@@ -5,7 +5,7 @@
 -->
 <script lang="ts">
     import { onMount } from "svelte";
-    import { currentPage, todayEntries, weekHistory } from "$lib/stores";
+        import { currentPage, todayEntries, weekHistory, OBJECTIFS } from "$lib/stores";
     import HomePage from "$lib/components/HomePage.svelte";
     import HistoryPage from "$lib/components/HistoryPage.svelte";
     import FoodsPage from "$lib/components/FoodsPage.svelte";
@@ -14,6 +14,7 @@
     onMount(() => {
         todayEntries.init();
         weekHistory.init();
+        OBJECTIFS.init();
     });
 </script>
 

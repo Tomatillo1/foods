@@ -5,8 +5,8 @@
 -->
 <script lang="ts">
     import "./layout.css";
-    import { currentPage, isPopupOpen } from "$lib/stores";
-    import { History, Home, Utensils } from "lucide-svelte";
+    import { currentPage, isPopupOpen, showSettingsPopup } from "$lib/stores";
+    import { History, Home, Utensils, Settings } from "lucide-svelte";
     import type { Page } from "$lib/types";
 
     let { children } = $props();
@@ -23,11 +23,22 @@
 >
     <!-- Header global NutriTrack -->
     <header
-        class="bg-[#065f46] px-5 pb-4.5 pt-[calc(1.125rem+env(safe-area-inset-top))] mb-4 shadow-md"
+        class="bg-[#065f46] px-5 pb-4.5 pt-[calc(1.125rem+env(safe-area-inset-top))] mb-4 shadow-md flex justify-between items-center"
     >
         <h1 class="text-2xl font-extrabold text-white tracking-tight">
             NutriTrack
         </h1>
+        {#if $currentPage === "home"}
+            <button
+                type="button"
+                id="btn-settings-trigger"
+                class="p-2 -mr-2 rounded-full hover:bg-white/10 text-white transition-colors flex items-center justify-center cursor-pointer border-none bg-transparent"
+                onclick={() => showSettingsPopup.set(true)}
+                aria-label="Modifier les objectifs"
+            >
+                <Settings size={20} />
+            </button>
+        {/if}
     </header>
 
     <main class="px-4">

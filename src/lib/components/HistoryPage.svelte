@@ -92,7 +92,7 @@
                         <div class="flex items-baseline gap-1">
                             <span
                                 class="text-[22px] font-extrabold {jour.calories >
-                                OBJECTIFS.calories
+                                $OBJECTIFS.calories
                                     ? 'text-[#ef4444]'
                                     : 'text-[#059669]'}">{jour.calories}</span
                             >
@@ -113,7 +113,7 @@
                             >
                             <span
                                 class="text-base font-extrabold {jour.proteines >
-                                OBJECTIFS.proteines
+                                $OBJECTIFS.proteines
                                     ? 'text-[#ef4444]'
                                     : 'text-sky-600'}">{jour.proteines}g</span
                             >

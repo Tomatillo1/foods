@@ -25,11 +25,13 @@
         proteinesRestantes,
         OBJECTIFS,
         isPopupOpen,
+        showSettingsPopup,
     } from "$lib/stores";
     import { foodDatabase, categoriesAvecAutre } from "$lib/data/foodData";
     import type { Food } from "$lib/types";
     import CustomFoodPopup from "./CustomFoodPopup.svelte";
     import SaveDayPopup from "./SaveDayPopup.svelte";
+    import GoalSettingsPopup from "./GoalSettingsPopup.svelte";
     import type { Categorie } from "$lib/types";
 
     /** Mapping des icônes par catégorie (identique à la page Aliments) */
@@ -62,7 +64,7 @@
 
     /** Sync global popup state */
     $effect(() => {
-        isPopupOpen.set(showCustomPopup || showSavePopup);
+        isPopupOpen.set(showCustomPopup || showSavePopup || $showSettingsPopup);
     });
 
     // ==========================================
@@ -107,12 +109,12 @@
 
     /** Pourcentage calories consommées */
     let caloriePourcentage = $derived(
-        Math.min(100, ($todayTotals.calories / OBJECTIFS.calories) * 100),
+        Math.min(100, ($todayTotals.calories / $OBJECTIFS.calories) * 100),
     );
 
     /** Pourcentage protéines consommées */
     let proteinePourcentage = $derived(
-        Math.min(100, ($todayTotals.proteines / OBJECTIFS.proteines) * 100),
+        Math.min(100, ($todayTotals.proteines / $OBJECTIFS.proteines) * 100),
     );
 
     let apercuValeurs = $derived(() => {
@@ -525,3 +527,5 @@
 />
 
 <SaveDayPopup visible={showSavePopup} onClose={() => (showSavePopup = false)} />
+
+<GoalSettingsPopup visible={$showSettingsPopup} onClose={() => showSettingsPopup.set(false)} />

@@ -17,11 +17,39 @@ import type {
 // Constantes
 // ==========================================
 
-/** Objectifs nutritionnels quotidiens */
-export const OBJECTIFS = {
+/** Structure des objectifs nutritionnels */
+export interface Objectifs {
+  calories: number;
+  proteines: number;
+}
+
+/** Objectifs par défaut */
+const DEFAUT_OBJECTIFS: Objectifs = {
   calories: 2200,
   proteines: 130,
-} as const;
+};
+
+function createObjectifsStore() {
+  const { subscribe, set } = writable<Objectifs>(DEFAUT_OBJECTIFS);
+
+  return {
+    subscribe,
+    /** Initialise le store depuis localStorage */
+    init() {
+      const data = chargerDepuisLS<Objectifs>("nutrition-objectifs", DEFAUT_OBJECTIFS);
+      set(data);
+    },
+    /** Modifie les objectifs et sauvegarde dans localStorage */
+    modifier(calories: number, proteines: number) {
+      const nouveau = { calories, proteines };
+      set(nouveau);
+      sauvegarderDansLS("nutrition-objectifs", nouveau);
+    }
+  };
+}
+
+export const OBJECTIFS = createObjectifsStore();
+
 
 /** Clés localStorage */
 const LS_ENTRIES = "nutrition-today-entries";
@@ -80,6 +108,7 @@ export const currentPage = writable<Page>("home");
 
 /** État de visibilité des popups (pour masquer la navbar) */
 export const isPopupOpen = writable(false);
+export const showSettingsPopup = writable(false);
 
 /** Historique des entrées du jour */
 function createEntriesStore() {
@@ -177,13 +206,13 @@ export const todayTotals = derived(todayEntries, ($entries) => {
 });
 
 /** Calories restantes (bloqué à 0 si dépassement) */
-export const caloriesRestantes = derived(todayTotals, ($totals) => ({
-  valeur: Math.max(0, OBJECTIFS.calories - $totals.calories),
-  depasse: $totals.calories > OBJECTIFS.calories,
+export const caloriesRestantes = derived([todayTotals, OBJECTIFS], ([$totals, $objectifs]) => ({
+  valeur: Math.max(0, $objectifs.calories - $totals.calories),
+  depasse: $totals.calories > $objectifs.calories,
 }));
 
 /** Protéines restantes (bloqué à 0 si dépassement) */
-export const proteinesRestantes = derived(todayTotals, ($totals) => ({
-  valeur: Math.max(0, OBJECTIFS.proteines - $totals.proteines),
-  depasse: $totals.proteines > OBJECTIFS.proteines,
+export const proteinesRestantes = derived([todayTotals, OBJECTIFS], ([$totals, $objectifs]) => ({
+  valeur: Math.max(0, $objectifs.proteines - $totals.proteines),
+  depasse: $totals.proteines > $objectifs.proteines,
 }));
