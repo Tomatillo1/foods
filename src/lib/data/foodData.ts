@@ -230,8 +230,24 @@ export const foodDatabase: Record<string, Food[]> = {
 
   Laitages: [
     {
-      nom: "Fromage blanc (3%)",
+      nom: "Fromage blanc (3 %)",
       valeurs: { calories: 82, proteines: 5.7, glucides: 6.6, lipides: 3.2 },
+    },
+    {
+      nom: "Skyr (0 %)",
+      valeurs: { calories: 56, proteines: 9.3, glucides: 3.6, lipides: 0.2 },
+    },
+    {
+      nom: "Skyr vanille",
+      valeurs: { calories: 55, proteines: 9.7, glucides: 3.6, lipides: 0.2 },
+    },
+    {
+      nom: "Skyr fruits rouges",
+      valeurs: { calories: 57, proteines: 9.8, glucides: 4.1, lipides: 0.2 },
+    },
+    {
+      nom: "Skyr chocolat",
+      valeurs: { calories: 71, proteines: 9, glucides: 3.8, lipides: 2.2 },
     },
     {
       nom: "Parmesan",
@@ -240,6 +256,14 @@ export const foodDatabase: Record<string, Food[]> = {
     {
       nom: "Beurre",
       valeurs: { calories: 726, proteines: 0.6, glucides: 1, lipides: 80 },
+    },
+    {
+      nom: "Crème de coco",
+      valeurs: { calories: 244, proteines: 2.7, glucides: 4.4, lipides: 24 },
+    },
+    {
+      nom: "Crème de coco",
+      valeurs: { calories: 182, proteines: 2, glucides: 2.9, lipides: 18 },
     },
   ],
 
@@ -259,6 +283,10 @@ export const foodDatabase: Record<string, Food[]> = {
     {
       nom: "Compote de pomme SSA",
       valeurs: { calories: 50, proteines: 0.3, glucides: 11, lipides: 0.1 },
+    },
+    {
+      nom: "Confiture mirabelle",
+      valeurs: { calories: 163, proteines: 0.5, glucides: 39, lipides: 0.1 },
     },
     {
       nom: "Sucre",
@@ -301,10 +329,6 @@ export const foodDatabase: Record<string, Food[]> = {
     {
       nom: "Sauce tomate",
       valeurs: { calories: 27, proteines: 1.2, glucides: 4.5, lipides: 0.5 },
-    },
-    {
-      nom: "Crème de coco",
-      valeurs: { calories: 247, proteines: 2.6, glucides: 3.6, lipides: 25 },
     },
   ],
 };
