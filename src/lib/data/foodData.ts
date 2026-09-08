@@ -254,6 +254,10 @@ export const foodDatabase: Record<string, Food[]> = {
       valeurs: { calories: 402, proteines: 32, glucides: 0, lipides: 30 },
     },
     {
+      nom: "Feta",
+      valeurs: { calories: 272, proteines: 15.7, glucides: 0.8, lipides: 22.8 },
+    },
+    {
       nom: "Beurre",
       valeurs: { calories: 726, proteines: 0.6, glucides: 1, lipides: 80 },
     },
@@ -262,8 +266,12 @@ export const foodDatabase: Record<string, Food[]> = {
       valeurs: { calories: 244, proteines: 2.7, glucides: 4.4, lipides: 24 },
     },
     {
-      nom: "Crème de coco",
-      valeurs: { calories: 182, proteines: 2, glucides: 2.9, lipides: 18 },
+      nom: "Lait de coco",
+      valeurs: { calories: 182, proteines: 3.3, glucides: 4.8, lipides: 18 },
+    },
+    {
+      nom: "Lait D-E",
+      valeurs: { calories: 47, proteines: 2, glucides: 2.9, lipides: 1.6 },
     },
   ],
 
